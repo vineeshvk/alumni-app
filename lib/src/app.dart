@@ -1,14 +1,13 @@
-import 'package:alumni_app/src/bloc/authentication-bloc.dart';
+import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
 import 'package:alumni_app/src/constants/colors.dart';
-import 'package:alumni_app/src/repositories/user-repository.dart';
-import 'package:alumni_app/src/screens/login.dart';
-import 'package:alumni_app/src/screens/splash.dart';
-import 'package:alumni_app/src/screens/welcome.dart';
-import 'package:alumni_app/src/states/authentication-state.dart';
+import 'package:alumni_app/src/home/home.dart';
+import 'package:alumni_app/src/login/login.dart';
+import 'package:alumni_app/src/register/register.dart';
+import 'package:alumni_app/src/splash/splash.dart';
+import 'package:alumni_app/src/welcome/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyApp extends StatelessWidget {
   final UserRepository userRepository;
@@ -23,23 +22,11 @@ class MyApp extends StatelessWidget {
     ));
 
     return MaterialApp(
-        theme: theme,
-        // routes: routes,
-        debugShowCheckedModeBanner: false,
-        home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is AuthenticationAuthenticated) {
-              return SplashScreen();
-            }
-            if (state is AuthenticationUnauthenticated) {
-              return LoginScreen(userRepository: userRepository);
-            }
-            if (state is AuthenticationLoading) {
-              return CupertinoActivityIndicator();
-            }
-            return SplashScreen();
-          },
-        ));
+      theme: theme,
+      routes: routes,
+      debugShowCheckedModeBanner: false,
+      initialRoute: SplashScreen.routeName,
+    );
   }
 }
 
@@ -47,6 +34,8 @@ Map<String, Widget Function(BuildContext)> routes = {
   SplashScreen.routeName: (context) => SplashScreen(),
   WelcomeScreen.routeName: (context) => WelcomeScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
+  HomeScreen.routeName: (context) => HomeScreen(),
+  RegisterScreen.routeName: (context) => RegisterScreen()
 };
 
 final theme = ThemeData(
@@ -67,3 +56,20 @@ final theme = ThemeData(
     ),
   ),
 );
+
+/*
+ BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state) {
+            if (state is AuthenticationAuthenticated) {
+              return HomeScreen();
+            }
+            if (state is AuthenticationUnauthenticated) {
+              return WelcomeScreen(userRepository: userRepository);
+            }
+            if (state is AuthenticationLoading) {
+              return Scaffold(body: CupertinoActivityIndicator());
+            }
+            return SplashScreen();
+          },
+        ));
+*/

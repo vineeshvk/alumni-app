@@ -1,7 +1,7 @@
 import 'package:alumni_app/src/app.dart';
-import 'package:alumni_app/src/bloc/authentication-bloc.dart';
-import 'package:alumni_app/src/events/authentication-event.dart';
-import 'package:alumni_app/src/repositories/user-repository.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
+import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

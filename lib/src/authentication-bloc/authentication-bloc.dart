@@ -1,6 +1,6 @@
-import 'package:alumni_app/src/events/authentication-event.dart';
-import 'package:alumni_app/src/repositories/user-repository.dart';
-import 'package:alumni_app/src/states/authentication-state.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
+import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,9 +27,9 @@ class AuthenticationBloc
 
     if (event is LoggedIn) {
       yield AuthenticationLoading();
-      await userRepository.persistToken(event.token);
-
+      await userRepository.persistToken(event.data["token"]);
       yield AuthenticationAuthenticated();
+      print("persist");
     }
 
     if (event is LoggedOut) {

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:alumni_app/src/bloc/authentication-bloc.dart';
-import 'package:alumni_app/src/events/authentication-event.dart';
-import 'package:alumni_app/src/events/login-event.dart';
-import 'package:alumni_app/src/repositories/user-repository.dart';
-import 'package:alumni_app/src/states/login-state.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
+import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
+import 'package:alumni_app/src/login/bloc/login_event.dart';
+import 'package:alumni_app/src/login/bloc/login_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -26,13 +26,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginLoading();
 
       try {
-        final token = await userRepository.authenticate(
+        final token = await userRepository.login(
           email: event.email,
           password: event.password,
         );
 
-        authenticationBloc.add(LoggedIn(token: token));
-        yield LoginInitial();
+        if (token != null) {
+          authenticationBloc.add(LoggedIn(data:{"token":token}));
+          yield LoginInitial();
+        } else
+          yield LoginFailure(error: "Login Failed");
       } catch (error) {
         yield LoginFailure(error: error.toString());
       }
