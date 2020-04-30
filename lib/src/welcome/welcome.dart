@@ -1,4 +1,4 @@
-import 'package:alumni_app/src/welcome/welcome_admin_button.dart';
+import 'package:alumni_app/src/components/primary_button_light.dart';
 import 'package:alumni_app/src/welcome/welcome_button_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class WelcomeScreen extends StatelessWidget {
             Container(height: 110),
             WelcomeButtonBar(),
             Container(height: 32),
-            WelcomeAdminButton(),
+            PrimaryButtonLight(onPressed: null, text: "SIGN IN AS ADMIN"),
           ],
         ),
       ),

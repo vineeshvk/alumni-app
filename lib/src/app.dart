@@ -57,19 +57,3 @@ final theme = ThemeData(
   ),
 );
 
-/*
- BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          builder: (context, state) {
-            if (state is AuthenticationAuthenticated) {
-              return HomeScreen();
-            }
-            if (state is AuthenticationUnauthenticated) {
-              return WelcomeScreen(userRepository: userRepository);
-            }
-            if (state is AuthenticationLoading) {
-              return Scaffold(body: CupertinoActivityIndicator());
-            }
-            return SplashScreen();
-          },
-        ));
-*/

@@ -38,20 +38,18 @@ class LoginForm extends StatelessWidget {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: _onSuccessNavigation,
       bloc: BlocProvider.of<AuthenticationBloc>(context),
-      child: Form(
-        child: Column(
-          children: <Widget>[
-            Container(height: 60),
-            InputField(label: "Email", controller: emailCtrl),
-            Container(height: 40),
-            InputField(label: "Password", controller: passCtrl),
-            Container(height: 100),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: NextButton(onPressed: _loginOnPress),
-            )
-          ],
-        ),
+      child: Column(
+        children: <Widget>[
+          Container(height: 60),
+          InputField(label: "Email", controller: emailCtrl),
+          Container(height: 40),
+          InputField(label: "Password", controller: passCtrl),
+          Container(height: 100),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: NextButton(onPressed: _loginOnPress),
+          )
+        ],
       ),
     );
   }

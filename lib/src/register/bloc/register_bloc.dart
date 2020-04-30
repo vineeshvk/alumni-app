@@ -40,6 +40,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       } catch (error) {
         yield RegisterFailure(error: error.toString());
       }
+    } else if (event is EmailExistCheck) {
+      try {
+        final data = await userRepository.hasSameEmail(event.email);
+        
+        yield data ? EmailAlreadyExist() : EmailDoesNotExist();
+      } catch (error) {
+        yield RegisterFailure(error: error.toString());
+      }
     }
   }
 }

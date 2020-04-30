@@ -23,3 +23,7 @@ class RegisterFailure extends RegisterState {
   @override
   String toString() => 'RegisterFailure { error: $error }';
 }
+
+class EmailAlreadyExist extends RegisterState {}
+
+class EmailDoesNotExist extends RegisterState {}

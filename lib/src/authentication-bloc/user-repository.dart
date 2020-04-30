@@ -58,4 +58,13 @@ class UserRepository {
 
     return prefs.getString('userId') != null;
   }
+
+  Future<bool> hasSameEmail(String email) async {
+    Response response = await dio
+        .post(API_URL + API_ENDPOINTS.emailExist, data: {"email": email});
+    print("From url" + response.data);
+
+    bool hasSameEmail = response.data['emailAlreadyExists'];
+    return hasSameEmail;
+  }
 }

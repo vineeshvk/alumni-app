@@ -5,6 +5,18 @@ abstract class RegisterEvent extends Equatable {
   const RegisterEvent();
 }
 
+class EmailExistCheck extends RegisterEvent {
+  final String email;
+
+  const EmailExistCheck({@required this.email});
+
+  @override
+  List<Object> get props => [email];
+
+  @override
+  String toString() => 'RegisterEmailCheck { email: $email}';
+}
+
 class RegisterButtonPressed extends RegisterEvent {
   final String name;
   final String email;
@@ -21,5 +33,5 @@ class RegisterButtonPressed extends RegisterEvent {
 
   @override
   String toString() =>
-      'RegisterButtonPressed { email: $email, password: $password, name: 2$name }';
+      'RegisterButtonPressed { email: $email, password: $password, name: $name }';
 }

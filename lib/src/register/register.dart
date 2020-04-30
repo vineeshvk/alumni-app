@@ -1,46 +1,102 @@
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/register/bloc/register_bloc.dart';
-import 'package:alumni_app/src/register/register_form.dart';
+import 'package:alumni_app/src/register/bloc/register_event.dart';
+import 'package:alumni_app/src/register/register_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   static const routeName = '/register';
 
   @override
-  Widget build(BuildContext context) {
+  _RegisterScreenState createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  final _pageCtrl = PageController();
+  int page = 0;
+  Map<String, String> inputs = {"email": ""};
+
+  Future<bool> _onWillPop() async {
+    if (page == 0) return true;
+
+    _pageCtrl.previousPage(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+
+    return false;
+  }
+
+  void _onInputTextChanged(String text, [String name]) {
+    print(text + name + inputs.toString());
+    setState(() {
+      inputs[name] = text;
+    });
+  }
+
+  void _onContinueButtonPressed(context) {
+    if (page == 0) {
+      BlocProvider.of<RegisterBloc>(context)
+          .add(EmailExistCheck(email: inputs["email"]));
+      return;
+    }
+
+    print("_onCOntinueButtonPressed $page");
+    _pageCtrl.nextPage(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+  }
+
+  void _onBackButtonPressed(context) {
+    if (page == 0) {
+      Navigator.pop(context);
+      return;
+    }
+
+    _pageCtrl.previousPage(
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
+    );
+  }
+
+  void _onRegisterButtonPressed(context) {}
+
+  void _onPageChanged(int) {
+    setState(() {
+      page = int;
+    });
+  }
+
+  RegisterBloc _registerCreateBloc(context) {
     // ignore: close_sinks
     final _authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
+    return RegisterBloc(
+      userRepository: _authBloc.userRepository,
+      authenticationBloc: _authBloc,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: ListView(
-          padding: EdgeInsets.all(32),
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: BackButton(onPressed: () => Navigator.pop(context)),
+      child: WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
+          body: BlocProvider<RegisterBloc>(
+            create: _registerCreateBloc,
+            child: RegisterPageController(
+              page: page,
+              pageController: _pageCtrl,
+              onPageChanged: _onPageChanged,
+              onBackButtonPressed: _onBackButtonPressed,
+              onContinueButtonPressed: _onContinueButtonPressed,
+              onRegisterButtonPressed: _onRegisterButtonPressed,
+              onInputTextChange: _onInputTextChanged,
             ),
-            Container(height: 10),
-            Text(
-              "Welcome",
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-            Container(height: 10),
-            Text(
-              "please sign up to continue",
-              style: TextStyle(fontSize: 24, color: Colors.white60),
-            ),
-            BlocProvider(
-              child: RegisterForm(),
-              create: (context) {
-                return RegisterBloc(
-                  userRepository: _authBloc.userRepository,
-                  authenticationBloc: _authBloc,
-                );
-              },
-            )
-          ],
+          ),
         ),
       ),
     );

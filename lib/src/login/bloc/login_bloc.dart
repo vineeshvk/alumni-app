@@ -32,10 +32,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         if (token != null) {
-          authenticationBloc.add(LoggedIn(data:{"token":token}));
+          authenticationBloc.add(LoggedIn(data: {"token": token}));
           yield LoginInitial();
-        } else
+        } else {
           yield LoginFailure(error: "Login Failed");
+        }
       } catch (error) {
         yield LoginFailure(error: error.toString());
       }
