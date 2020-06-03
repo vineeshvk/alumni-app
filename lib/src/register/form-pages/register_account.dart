@@ -2,9 +2,9 @@ import 'package:alumni_app/src/components/input_field.dart';
 import 'package:flutter/material.dart';
 
 class RegisterAccount extends StatelessWidget {
-  final Function(String, [String]) onInputTextChange;
+  final void Function(String, String) onInputTextChange;
 
-  const RegisterAccount({Key key, this.onInputTextChange}) : super(key: key);
+  const RegisterAccount({this.onInputTextChange});
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +18,26 @@ class RegisterAccount extends StatelessWidget {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           Container(height: 50),
-          InputField(label: "Name"),
+          InputField(
+            name: "name",
+            label: "Name",
+            onChanged: onInputTextChange,
+          ),
           Container(height: 40),
           InputField(
             name: "email",
             label: "Email",
             onChanged: onInputTextChange,
+            keyboardType: TextInputType.emailAddress,
           ),
           Container(height: 40),
-          InputField(label: "Password", obscureText: true)
+          InputField(
+            name: "password",
+            label: "Password",
+            obscureText: true,
+            onChanged: onInputTextChange,
+            keyboardType: TextInputType.visiblePassword,
+          )
         ],
       ),
     );

@@ -24,6 +24,18 @@ class RegisterFailure extends RegisterState {
   String toString() => 'RegisterFailure { error: $error }';
 }
 
-class EmailAlreadyExist extends RegisterState {}
+class EmailAlreadyExist extends RegisterState {
+  final String email;
+  const EmailAlreadyExist({@required this.email});
 
-class EmailDoesNotExist extends RegisterState {}
+  @override
+  List<Object> get props => [email];
+}
+
+class EmailDoesNotExist extends RegisterState {
+  final String email;
+  const EmailDoesNotExist({@required this.email});
+
+  @override
+  List<Object> get props => [email];
+}

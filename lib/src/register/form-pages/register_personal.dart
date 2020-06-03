@@ -4,22 +4,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPersonal extends StatefulWidget {
+  final void Function(String, String) onInputTextChange;
+  final Map<String, String> inputs;
+
+  RegisterPersonal({Key key, this.onInputTextChange, this.inputs});
+
   @override
   _RegisterPersonalState createState() => _RegisterPersonalState();
 }
 
 class _RegisterPersonalState extends State<RegisterPersonal> {
   final _dobCtrl = TextEditingController();
-  DateTime date;
-  String gender;
 
   void _onDateTimeChanged(DateTime newDate) {
+    widget.onInputTextChange("dob", newDate.toIso8601String());
+
     _dobCtrl.value = TextEditingValue(
-      text: newDate.toIso8601String().substring(0, 10),
+      text: widget.inputs["dob"].substring(0, 10),
     );
-    setState(() {
-      date = newDate;
-    });
   }
 
   void _onDobInputTap(BuildContext context) {
@@ -27,7 +29,6 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
       context: context,
       builder: (context) => DatePicker(
         onDateTimeChanged: _onDateTimeChanged,
-        initialDateTime: date,
       ),
     );
   }
@@ -49,29 +50,31 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
             label: "Date of Birth",
             onTap: _onDobInputTap,
           ),
+          Container(height: 40),
+          Text("Gender"),
           Container(
             height: 50,
             width: 300,
-            child: CupertinoSegmentedControl(
-              groupValue: gender,
+            child: CupertinoSlidingSegmentedControl(
+              padding: EdgeInsets.all(5),
+              onValueChanged: (val) => widget.onInputTextChange("gender", val),
+              groupValue: widget.inputs["gender"] == ""
+                  ? null
+                  : widget.inputs["gender"],
               children: {
                 "male": Text("Male"),
                 "female": Text("Female"),
                 "others": Text("Others")
               },
-              padding: EdgeInsets.all(5),
-              onValueChanged: (val) {
-                print("inside segments" + val);
-                setState(() {
-                  gender = val;
-                });
-              },
             ),
           ),
           Container(height: 40),
-          InputField(label: "Gender"),
-          Container(height: 40),
-          InputField(label: "Phone number", obscureText: true)
+          InputField(
+            name: "phone",
+            label: "Phone number",
+            keyboardType: TextInputType.phone,
+            onChanged: widget.onInputTextChange,
+          )
         ],
       ),
     );

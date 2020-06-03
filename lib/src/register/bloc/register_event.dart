@@ -17,21 +17,21 @@ class EmailExistCheck extends RegisterEvent {
   String toString() => 'RegisterEmailCheck { email: $email}';
 }
 
+class EmailCheckReset extends RegisterEvent {
+  const EmailCheckReset();
+
+  @override
+  List<Object> get props => [];
+}
+
 class RegisterButtonPressed extends RegisterEvent {
-  final String name;
-  final String email;
-  final String password;
+  final Map<String, String> inputs;
 
-  const RegisterButtonPressed({
-    @required this.email,
-    @required this.password,
-    @required this.name,
-  });
+  const RegisterButtonPressed({@required this.inputs});
 
   @override
-  List<Object> get props => [email, password, name];
+  List<Object> get props => [inputs];
 
   @override
-  String toString() =>
-      'RegisterButtonPressed { email: $email, password: $password, name: $name }';
+  String toString() => 'RegisterButtonPressed { inputs: $inputs }';
 }

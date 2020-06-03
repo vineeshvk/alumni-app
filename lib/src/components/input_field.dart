@@ -1,4 +1,3 @@
-import 'package:alumni_app/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends StatelessWidget {
@@ -6,8 +5,9 @@ class InputField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final bool obscureText;
+  final TextInputType keyboardType;
   final void Function(BuildContext context) onTap;
-  final void Function(String text, [String name]) onChanged;
+  final void Function(String text, String name) onChanged;
 
   const InputField({
     @required this.label,
@@ -16,6 +16,7 @@ class InputField extends StatelessWidget {
     this.obscureText = false,
     this.onTap,
     this.onChanged,
+    this.keyboardType,
   });
 
   @override
@@ -24,18 +25,12 @@ class InputField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       onTap: () => onTap(context),
-      onChanged: (text) => onChanged(text, name),
+      onChanged: (text) => onChanged(name, text),
       maxLength: null,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         enabled: true,
         labelText: label,
-        labelStyle: TextStyle(color: Colors.white),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: SECONDARY_TEXT, width: 3),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white, width: 3),
-        ),
       ),
     );
   }

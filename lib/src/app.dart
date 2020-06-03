@@ -48,6 +48,15 @@ final theme = ThemeData(
       fontWeight: FontWeight.w600,
     ),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: TextStyle(color: Colors.white),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: SECONDARY_TEXT, width: 3),
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.white, width: 3),
+    ),
+  ),
   buttonTheme: ButtonThemeData(
     height: 50,
     buttonColor: SECONDARY_DARK,
@@ -56,4 +65,3 @@ final theme = ThemeData(
     ),
   ),
 );
-

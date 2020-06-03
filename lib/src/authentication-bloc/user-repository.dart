@@ -24,14 +24,11 @@ class UserRepository {
     return null;
   }
 
-  Future<Map<String, String>> register({
-    @required String name,
-    @required String email,
-    @required String password,
-  }) async {
+  Future<Map<String, String>> register(
+      {@required Map<String, String> inputs}) async {
     Response response = await dio.post(
       API_URL + API_ENDPOINTS.register,
-      data: {"name": name, "email": email, "password": password},
+      data: inputs,
     );
 
     var data = response.data["user"];
@@ -62,7 +59,6 @@ class UserRepository {
   Future<bool> hasSameEmail(String email) async {
     Response response = await dio
         .post(API_URL + API_ENDPOINTS.emailExist, data: {"email": email});
-    print("From url" + response.data);
 
     bool hasSameEmail = response.data['emailAlreadyExists'];
     return hasSameEmail;

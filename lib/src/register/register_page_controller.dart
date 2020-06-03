@@ -11,7 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class RegisterPageController extends StatelessWidget {
   final int page;
 
-  final Function(String, [String]) onInputTextChange;
+  final Map<String, String> inputs;
+
+  final void Function(String, String) onInputTextChange;
 
   final void Function(int) onPageChanged;
   final void Function(BuildContext) onBackButtonPressed;
@@ -29,6 +31,7 @@ class RegisterPageController extends StatelessWidget {
     this.onRegisterButtonPressed,
     this.onContinueButtonPressed,
     this.onInputTextChange,
+    this.inputs,
   }) : super(key: key);
 
   @override
@@ -52,21 +55,21 @@ class RegisterPageController extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             children: <Widget>[
               RegisterAccount(onInputTextChange: onInputTextChange),
-              RegisterPersonal(),
-              RegisterCollege(),
-              RegisterCollegeBatch()
+              RegisterPersonal(
+                  onInputTextChange: onInputTextChange, inputs: inputs),
+              RegisterCollege(onInputTextChange: onInputTextChange),
+              RegisterCollegeBatch(onInputTextChange: onInputTextChange)
             ],
           ),
         ),
         BlocListener<RegisterBloc, RegisterState>(
           bloc: BlocProvider.of<RegisterBloc>(context),
           child: RegisterButtons(
-            registerComplete: page == 2,
+            registerComplete: page == 3,
             onContinueButtonPressed: onContinueButtonPressed,
             onRegisterButtonPressed: onRegisterButtonPressed,
           ),
           listener: (context, state) {
-            print("From bloc" + state.toString());
             if (state is EmailDoesNotExist) {
               pageController.nextPage(
                 duration: Duration(milliseconds: 300),

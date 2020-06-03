@@ -15,7 +15,19 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _pageCtrl = PageController();
   int page = 0;
-  Map<String, String> inputs = {"email": ""};
+  Map<String, String> inputs = {
+    "email": "",
+    "dob": "",
+    "password": "",
+    "name": "",
+    "phone": "",
+    "gender": "",
+    "collegeId": "",
+    "registerNo": "",
+    "batch": "",
+    "major": "",
+    "degree": ""
+  };
 
   Future<bool> _onWillPop() async {
     if (page == 0) return true;
@@ -28,11 +40,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return false;
   }
 
-  void _onInputTextChanged(String text, [String name]) {
-    print(text + name + inputs.toString());
+  void _onInputTextChanged(String name, String text) {
     setState(() {
       inputs[name] = text;
     });
+    print("inputs => $inputs");
   }
 
   void _onContinueButtonPressed(context) {
@@ -42,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    print("_onCOntinueButtonPressed $page");
+    print("_onContinueButtonPressed $page");
     _pageCtrl.nextPage(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeIn,
@@ -61,7 +73,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _onRegisterButtonPressed(context) {}
+  void _onRegisterButtonPressed(context) {
+    BlocProvider.of<RegisterBloc>(context)
+        .add(RegisterButtonPressed(inputs: inputs));
+  }
 
   void _onPageChanged(int) {
     setState(() {
@@ -89,6 +104,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             create: _registerCreateBloc,
             child: RegisterPageController(
               page: page,
+              inputs: inputs,
               pageController: _pageCtrl,
               onPageChanged: _onPageChanged,
               onBackButtonPressed: _onBackButtonPressed,

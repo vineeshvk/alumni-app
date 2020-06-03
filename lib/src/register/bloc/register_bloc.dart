@@ -26,28 +26,32 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       yield RegisterLoading();
 
       try {
-        final data = await userRepository.register(
-          name: event.name,
-          email: event.email,
-          password: event.password,
-        );
+        final data = await userRepository.register(inputs: event.inputs);
 
         if (data["error"] == null) {
           authenticationBloc.add(LoggedIn(data: data["token"]));
           yield RegisterInitial();
-        } else
+        } else {
+          print("eror 1=>${data["error"]}");
           yield RegisterFailure(error: data["error"]);
+        }
       } catch (error) {
+        print("eror 2=>$error");
+
         yield RegisterFailure(error: error.toString());
       }
     } else if (event is EmailExistCheck) {
       try {
         final data = await userRepository.hasSameEmail(event.email);
-        
-        yield data ? EmailAlreadyExist() : EmailDoesNotExist();
+
+        yield data
+            ? EmailAlreadyExist(email: event.email)
+            : EmailDoesNotExist(email: event.email);
       } catch (error) {
         yield RegisterFailure(error: error.toString());
       }
+    } else if (event is EmailCheckReset) {
+      yield RegisterFailure(error: "email reset");
     }
   }
 }

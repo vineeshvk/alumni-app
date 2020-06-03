@@ -2,6 +2,10 @@ import 'package:alumni_app/src/components/input_field.dart';
 import 'package:flutter/material.dart';
 
 class RegisterCollege extends StatelessWidget {
+  final void Function(String, String) onInputTextChange;
+
+  const RegisterCollege({this.onInputTextChange});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,11 +18,18 @@ class RegisterCollege extends StatelessWidget {
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
           Container(height: 50),
-          InputField(label: "Date of Birth"),
+          InputField(
+            name: "collegeId",
+            label: "College name",
+            onChanged: onInputTextChange,
+          ),
           Container(height: 40),
-          InputField(label: "Gender"),
-          Container(height: 40),
-          InputField(label: "Phone number", obscureText: true)
+          InputField(
+            name: "registerNo",
+            label: "Register number",
+            keyboardType: TextInputType.visiblePassword,
+            onChanged: onInputTextChange,
+          ),
         ],
       ),
     );
