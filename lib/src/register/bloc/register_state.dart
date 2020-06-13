@@ -8,7 +8,7 @@ abstract class RegisterState extends Equatable {
   List<Object> get props => [];
 }
 
-class RegisterInitial extends RegisterState {}
+class RegisterInitiated extends RegisterState {}
 
 class RegisterLoading extends RegisterState {}
 
@@ -22,14 +22,6 @@ class RegisterFailure extends RegisterState {
 
   @override
   String toString() => 'RegisterFailure { error: $error }';
-}
-
-class EmailAlreadyExist extends RegisterState {
-  final String email;
-  const EmailAlreadyExist({@required this.email});
-
-  @override
-  List<Object> get props => [email];
 }
 
 class EmailDoesNotExist extends RegisterState {

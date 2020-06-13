@@ -5,12 +5,17 @@ import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
 import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
 import 'package:alumni_app/src/register/bloc/register_event.dart';
 import 'package:alumni_app/src/register/bloc/register_state.dart';
+import 'package:alumni_app/src/register/models/register_input_model.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
+  final pageCtrl = PageController(initialPage: 0);
+
+  RegisterInputModal registerInputs = new RegisterInputModal();
 
   RegisterBloc({
     @required this.userRepository,
@@ -18,40 +23,39 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   })  : assert(userRepository != null),
         assert(authenticationBloc != null);
 
-  RegisterState get initialState => RegisterInitial();
+  RegisterState get initialState => RegisterInitiated();
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
-    if (event is RegisterButtonPressed) {
-      yield RegisterLoading();
-
-      try {
-        final data = await userRepository.register(inputs: event.inputs);
-
-        if (data["error"] == null) {
-          authenticationBloc.add(LoggedIn(data: data["token"]));
-          yield RegisterInitial();
-        } else {
-          print("eror 1=>${data["error"]}");
-          yield RegisterFailure(error: data["error"]);
-        }
-      } catch (error) {
-        print("eror 2=>$error");
-
-        yield RegisterFailure(error: error.toString());
+    try {
+      if (event is RegisterButtonPressed) {
+        yield* _mapRegisterButtonPressedEvent();
+      } else if (event is EmailExistCheck) {
+        yield* _mapEmailExistCheck();
       }
-    } else if (event is EmailExistCheck) {
-      try {
-        final data = await userRepository.hasSameEmail(event.email);
-
-        yield data
-            ? EmailAlreadyExist(email: event.email)
-            : EmailDoesNotExist(email: event.email);
-      } catch (error) {
-        yield RegisterFailure(error: error.toString());
-      }
-    } else if (event is EmailCheckReset) {
-      yield RegisterFailure(error: "email reset");
+    } catch (error) {
+      yield RegisterFailure(error: error.toString());
     }
+  }
+
+  Stream<RegisterState> _mapRegisterButtonPressedEvent() async* {
+    yield RegisterLoading();
+
+    final id = await userRepository.register(inputs: registerInputs);
+
+    authenticationBloc.add(LoggedIn(data: id));
+    
+    yield RegisterInitiated();
+  }
+
+  Stream<RegisterState> _mapEmailExistCheck() async* {
+    yield RegisterLoading();
+
+    final data = await userRepository.hasSameEmail(email: registerInputs.email);
+
+    if (data)
+      yield RegisterFailure(error: "Email already exists");
+    else
+      yield EmailDoesNotExist(email: registerInputs.email);
   }
 }

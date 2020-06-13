@@ -2,19 +2,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryButton extends StatelessWidget {
-  final Function(BuildContext context) onPressed;
-  //TODO: check if context needed
-
+  final Function() onPressed;
+  final Brightness colorBrightness;
+  final bool isLoading;
   final String text;
+  final Color color;
 
-  const PrimaryButton({Key key, @required this.onPressed, this.text})
-      : super(key: key);
+  const PrimaryButton(
+      {@required this.onPressed,
+      @required this.text,
+      this.colorBrightness,
+      this.isLoading,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: () => onPressed(context),
-      child: Text(text),
+    return Container(
+      width: double.infinity,
+      child: RaisedButton(
+        onPressed: isLoading ? null : onPressed,
+        color: color,
+        colorBrightness: colorBrightness,
+        child: isLoading ? CupertinoActivityIndicator() : Text(text),
+      ),
     );
   }
 }

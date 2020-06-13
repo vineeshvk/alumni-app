@@ -1,7 +1,7 @@
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
 import 'package:alumni_app/src/constants/colors.dart';
-import 'package:alumni_app/src/home/home.dart';
+import 'package:alumni_app/src/main/main.dart';
 import 'package:alumni_app/src/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
   void _authenticationRoutes(BuildContext context, AuthenticationState state) {
     String route;
 
-    if (state is AuthenticationAuthenticated) route = HomeScreen.routeName;
+    if (state is AuthenticationAuthenticated) route = MainScreen.routeName;
     if (state is AuthenticationUnauthenticated) route = WelcomeScreen.routeName;
 
     if (route != null) Navigator.pushReplacementNamed(context, route);

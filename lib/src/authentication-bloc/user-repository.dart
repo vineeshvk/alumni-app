@@ -1,4 +1,6 @@
+import 'package:alumni_app/src/alumni_exception.dart';
 import 'package:alumni_app/src/constants/api.dart';
+import 'package:alumni_app/src/register/models/register_input_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,32 +14,28 @@ class UserRepository {
     @required String email,
     @required String password,
   }) async {
-    Response response = await dio.post(
+    Response res = await dio.post(
       API_URL + API_ENDPOINTS.login,
       data: {"email": email, "password": password},
     );
 
-    var data = response.data["user"];
-    var error = response.data["error"];
+    if (res.data["error"] != null) throw new AlumniException(res.data["error"]);
+    var data = res.data["user"];
 
-    if (data != null && data["id"] != null) return data["id"];
-    return null;
+    return data["id"];
   }
 
-  Future<Map<String, String>> register(
-      {@required Map<String, String> inputs}) async {
-    Response response = await dio.post(
+  Future<String> register({@required RegisterInputModal inputs}) async {
+    Response res = await dio.post(
       API_URL + API_ENDPOINTS.register,
-      data: inputs,
+      data: inputs.toJson(),
     );
+    print(" from res ${res.data}");
+    if (res.data["error"] != null) throw new AlumniException(res.data["error"]);
 
-    var data = response.data["user"];
-    var error = response.data["error"];
+    var data = res.data["user"];
 
-    if (error != null) return {"error": error};
-
-    if (data != null && data["id"] != null) return {"token": data["id"]};
-    return {"error": "Something went wrong"};
+    return data["id"];
   }
 
   Future<void> deleteToken() async {
@@ -56,11 +54,12 @@ class UserRepository {
     return prefs.getString('userId') != null;
   }
 
-  Future<bool> hasSameEmail(String email) async {
+  Future<bool> hasSameEmail({@required String email}) async {
+    print("from hasemail");
     Response response = await dio
         .post(API_URL + API_ENDPOINTS.emailExist, data: {"email": email});
-
     bool hasSameEmail = response.data['emailAlreadyExists'];
+
     return hasSameEmail;
   }
 }

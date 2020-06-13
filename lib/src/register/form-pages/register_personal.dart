@@ -1,13 +1,13 @@
 import 'package:alumni_app/src/components/input_field.dart';
+import 'package:alumni_app/src/register/bloc/register_bloc.dart';
 import 'package:alumni_app/src/register/date_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPersonal extends StatefulWidget {
-  final void Function(String, String) onInputTextChange;
-  final Map<String, String> inputs;
+  final RegisterBloc registerBloc;
 
-  RegisterPersonal({Key key, this.onInputTextChange, this.inputs});
+  const RegisterPersonal({Key key, this.registerBloc}) : super(key: key);
 
   @override
   _RegisterPersonalState createState() => _RegisterPersonalState();
@@ -15,16 +15,17 @@ class RegisterPersonal extends StatefulWidget {
 
 class _RegisterPersonalState extends State<RegisterPersonal> {
   final _dobCtrl = TextEditingController();
+  String _gender;
 
   void _onDateTimeChanged(DateTime newDate) {
-    widget.onInputTextChange("dob", newDate.toIso8601String());
+    widget.registerBloc.registerInputs.dob = newDate.toIso8601String();
 
     _dobCtrl.value = TextEditingValue(
-      text: widget.inputs["dob"].substring(0, 10),
+      text: widget.registerBloc.registerInputs.dob.substring(0, 10),
     );
   }
 
-  void _onDobInputTap(BuildContext context) {
+  void _onDobInputTap() {
     showModalBottomSheet(
       context: context,
       builder: (context) => DatePicker(
@@ -57,10 +58,13 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
             width: 300,
             child: CupertinoSlidingSegmentedControl(
               padding: EdgeInsets.all(5),
-              onValueChanged: (val) => widget.onInputTextChange("gender", val),
-              groupValue: widget.inputs["gender"] == ""
-                  ? null
-                  : widget.inputs["gender"],
+              groupValue: _gender,
+              onValueChanged: (val) {
+                widget.registerBloc.registerInputs.gender = val.toString();
+                setState(() {
+                  _gender = val;
+                });
+              },
               children: {
                 "male": Text("Male"),
                 "female": Text("Female"),
@@ -70,10 +74,11 @@ class _RegisterPersonalState extends State<RegisterPersonal> {
           ),
           Container(height: 40),
           InputField(
-            name: "phone",
             label: "Phone number",
             keyboardType: TextInputType.phone,
-            onChanged: widget.onInputTextChange,
+            onChanged: (text) {
+              widget.registerBloc.registerInputs.phone = text;
+            },
           )
         ],
       ),

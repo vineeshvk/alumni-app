@@ -1,6 +1,7 @@
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
+import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
+import 'package:alumni_app/src/main/main.dart';
 import 'package:alumni_app/src/register/bloc/register_bloc.dart';
-import 'package:alumni_app/src/register/bloc/register_event.dart';
 import 'package:alumni_app/src/register/register_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,81 +14,41 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _pageCtrl = PageController();
-  int page = 0;
-  Map<String, String> inputs = {
-    "email": "",
-    "dob": "",
-    "password": "",
-    "name": "",
-    "phone": "",
-    "gender": "",
-    "collegeId": "",
-    "registerNo": "",
-    "batch": "",
-    "major": "",
-    "degree": ""
-  };
+  AuthenticationBloc _authBloc;
 
-  Future<bool> _onWillPop() async {
-    if (page == 0) return true;
+  @override
+  initState() {
+    _authBloc = BlocProvider.of<AuthenticationBloc>(context);
 
-    _pageCtrl.previousPage(
+    super.initState();
+  }
+
+  Future<bool> _onWillPop(context) async {
+    RegisterBloc _registerBloc = BlocProvider.of<RegisterBloc>(context);
+
+    if (_registerBloc.pageCtrl.page == 0.0) return true;
+
+    _registerBloc.pageCtrl.previousPage(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeIn,
     );
+
+    _registerBloc.close();
 
     return false;
   }
 
-  void _onInputTextChanged(String name, String text) {
-    setState(() {
-      inputs[name] = text;
-    });
-    print("inputs => $inputs");
+  void _onRegistrationSuccess(BuildContext context, AuthenticationState state) {
+    print("from register $state");
+    if (state is AuthenticationAuthenticated)
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        MainScreen.routeName,
+        (val) => false,
+      );
   }
 
-  void _onContinueButtonPressed(context) {
-    if (page == 0) {
-      BlocProvider.of<RegisterBloc>(context)
-          .add(EmailExistCheck(email: inputs["email"]));
-      return;
-    }
-
-    print("_onContinueButtonPressed $page");
-    _pageCtrl.nextPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeIn,
-    );
-  }
-
-  void _onBackButtonPressed(context) {
-    if (page == 0) {
-      Navigator.pop(context);
-      return;
-    }
-
-    _pageCtrl.previousPage(
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeIn,
-    );
-  }
-
-  void _onRegisterButtonPressed(context) {
-    BlocProvider.of<RegisterBloc>(context)
-        .add(RegisterButtonPressed(inputs: inputs));
-  }
-
-  void _onPageChanged(int) {
-    setState(() {
-      page = int;
-    });
-  }
-
-  RegisterBloc _registerCreateBloc(context) {
-    // ignore: close_sinks
-    final _authBloc = BlocProvider.of<AuthenticationBloc>(context);
-
+  RegisterBloc _registerCreateBloc(BuildContext context) {
     return RegisterBloc(
       userRepository: _authBloc.userRepository,
       authenticationBloc: _authBloc,
@@ -97,24 +58,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: WillPopScope(
-        onWillPop: _onWillPop,
-        child: Scaffold(
-          body: BlocProvider<RegisterBloc>(
-            create: _registerCreateBloc,
-            child: RegisterPageController(
-              page: page,
-              inputs: inputs,
-              pageController: _pageCtrl,
-              onPageChanged: _onPageChanged,
-              onBackButtonPressed: _onBackButtonPressed,
-              onContinueButtonPressed: _onContinueButtonPressed,
-              onRegisterButtonPressed: _onRegisterButtonPressed,
-              onInputTextChange: _onInputTextChanged,
+      child: BlocProvider<RegisterBloc>(
+        create: _registerCreateBloc,
+        child: WillPopWidget(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+            body: BlocListener<AuthenticationBloc, AuthenticationState>(
+              bloc: _authBloc,
+              listener: _onRegistrationSuccess,
+              child: RegisterPageController(),
             ),
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _authBloc.close();
+    super.dispose();
+  }
+}
+
+//Inorder to get the context with registerBloc
+class WillPopWidget extends StatelessWidget {
+  final Widget child;
+  final Future<bool> Function(BuildContext) onWillPop;
+
+  const WillPopWidget({Key key, this.onWillPop, this.child}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(child: child, onWillPop: () => onWillPop(context));
   }
 }

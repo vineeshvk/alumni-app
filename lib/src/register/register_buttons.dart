@@ -4,25 +4,28 @@ import 'package:flutter/material.dart';
 
 class RegisterButtons extends StatelessWidget {
   final bool registerComplete;
-  final void Function(BuildContext) onRegisterButtonPressed;
-  final void Function(BuildContext) onContinueButtonPressed;
+  final void Function() onRegisterButtonPressed;
+  final void Function() onContinueButtonPressed;
+  final bool isLoading;
 
-  const RegisterButtons(
-      {Key key,
-      this.registerComplete,
-      this.onRegisterButtonPressed,
-      this.onContinueButtonPressed})
-      : super(key: key);
+  RegisterButtons({
+    this.registerComplete = false,
+    this.onRegisterButtonPressed,
+    this.onContinueButtonPressed,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return registerComplete
         ? PrimaryButtonLight(
             text: "REGISTER",
+            isLoading: isLoading,
             onPressed: onRegisterButtonPressed,
           )
         : PrimaryButton(
             text: "CONTINUE",
+            isLoading: isLoading,
             onPressed: onContinueButtonPressed,
           );
   }

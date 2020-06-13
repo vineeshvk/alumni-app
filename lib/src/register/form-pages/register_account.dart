@@ -1,10 +1,11 @@
 import 'package:alumni_app/src/components/input_field.dart';
+import 'package:alumni_app/src/register/bloc/register_bloc.dart';
 import 'package:flutter/material.dart';
 
 class RegisterAccount extends StatelessWidget {
-  final void Function(String, String) onInputTextChange;
+  final RegisterBloc registerBloc;
 
-  const RegisterAccount({this.onInputTextChange});
+  const RegisterAccount({Key key, this.registerBloc}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,24 +20,27 @@ class RegisterAccount extends StatelessWidget {
           ),
           Container(height: 50),
           InputField(
-            name: "name",
             label: "Name",
-            onChanged: onInputTextChange,
+            onChanged: (text) {
+              registerBloc.registerInputs.name = text;
+            },
           ),
           Container(height: 40),
           InputField(
-            name: "email",
             label: "Email",
-            onChanged: onInputTextChange,
+            onChanged: (text) {
+              registerBloc.registerInputs.email = text;
+            },
             keyboardType: TextInputType.emailAddress,
           ),
           Container(height: 40),
           InputField(
-            name: "password",
             label: "Password",
             obscureText: true,
-            onChanged: onInputTextChange,
             keyboardType: TextInputType.visiblePassword,
+            onChanged: (text) {
+              registerBloc.registerInputs.password = text;
+            },
           )
         ],
       ),

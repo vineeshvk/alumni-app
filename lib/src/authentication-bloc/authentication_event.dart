@@ -11,7 +11,7 @@ abstract class AuthenticationEvent extends Equatable {
 class AppStarted extends AuthenticationEvent {}
 
 class LoggedIn extends AuthenticationEvent {
-  final dynamic data;
+  final String data;
 
   const LoggedIn({@required this.data});
 

@@ -1,20 +1,15 @@
+import 'package:alumni_app/src/components/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PrimaryButtonLight extends StatelessWidget {
-  final Function(BuildContext context) onPressed;
-  final String text;
-
-  const PrimaryButtonLight({Key key, @required this.onPressed, this.text})
-      : super(key: key);
+class PrimaryButtonLight extends PrimaryButton {
+  PrimaryButtonLight(
+      {String text, bool isLoading = false, Function() onPressed})
+      : super(text: text, isLoading: isLoading, onPressed: onPressed);
 
   @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      color: Colors.white,
-      colorBrightness: Brightness.light,
-      onPressed: () => onPressed(context),
-      child: Text(text),
-    );
-  }
+  Brightness get colorBrightness => Brightness.light;
+
+  @override
+  Color get color => Colors.white;
 }

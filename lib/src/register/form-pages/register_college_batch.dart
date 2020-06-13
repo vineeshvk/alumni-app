@@ -1,10 +1,12 @@
 import 'package:alumni_app/src/components/input_field.dart';
+import 'package:alumni_app/src/register/bloc/register_bloc.dart';
 import 'package:flutter/material.dart';
 
 class RegisterCollegeBatch extends StatelessWidget {
-  final void Function(String, String) onInputTextChange;
+  final RegisterBloc registerBloc;
 
-  const RegisterCollegeBatch({this.onInputTextChange});
+  const RegisterCollegeBatch({Key key, this.registerBloc}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,23 +21,27 @@ class RegisterCollegeBatch extends StatelessWidget {
           Container(height: 50),
           DropdownButtonFormField<String>(
             hint: Text("Degree"),
-            onChanged: (val) => onInputTextChange("degree", val),
+            onChanged: (val) {
+              registerBloc.registerInputs.degree = val;
+            },
             items: ["B.A", "B.Sc", "B.E"]
                 .map((e) => DropdownMenuItem(child: Text(e), value: e))
                 .toList(),
           ),
           Container(height: 40),
           InputField(
-            name: "major",
             label: "Major",
-            onChanged: onInputTextChange,
+            onChanged: (text) {
+              registerBloc.registerInputs.major = text;
+            },
           ),
           Container(height: 40),
           InputField(
-            name: "batch",
             label: "Batch",
-            onChanged: onInputTextChange,
             keyboardType: TextInputType.number,
+            onChanged: (text) {
+              registerBloc.registerInputs.batch = text;
+            },
           )
         ],
       ),

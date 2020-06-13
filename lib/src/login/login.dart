@@ -4,14 +4,24 @@ import 'package:alumni_app/src/login/login_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
 
   @override
-  Widget build(BuildContext context) {
-    // ignore: close_sinks
-    final _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
+class _LoginScreenState extends State<LoginScreen> {
+  AuthenticationBloc _authBloc;
+
+  @override
+  void initState() {
+    _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: ListView(
@@ -44,5 +54,11 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _authBloc.close();
+    super.dispose();
   }
 }

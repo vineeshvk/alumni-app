@@ -1,7 +1,9 @@
 import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
+import 'package:alumni_app/src/chat/chat.dart';
 import 'package:alumni_app/src/constants/colors.dart';
-import 'package:alumni_app/src/home/home.dart';
 import 'package:alumni_app/src/login/login.dart';
+import 'package:alumni_app/src/main/main.dart';
+import 'package:alumni_app/src/profile/profile.dart';
 import 'package:alumni_app/src/register/register.dart';
 import 'package:alumni_app/src/splash/splash.dart';
 import 'package:alumni_app/src/welcome/welcome.dart';
@@ -34,8 +36,10 @@ Map<String, Widget Function(BuildContext)> routes = {
   SplashScreen.routeName: (context) => SplashScreen(),
   WelcomeScreen.routeName: (context) => WelcomeScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
-  HomeScreen.routeName: (context) => HomeScreen(),
-  RegisterScreen.routeName: (context) => RegisterScreen()
+  MainScreen.routeName: (context) => MainScreen(),
+  RegisterScreen.routeName: (context) => RegisterScreen(),
+  ProfileScreen.routeName: (context) => ProfileScreen(),
+  ChatScreen.routeName: (context) => ChatScreen()
 };
 
 final theme = ThemeData(
