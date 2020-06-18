@@ -1,8 +1,6 @@
 import 'package:alumni_app/src/app.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
-import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,16 +26,12 @@ class SimpleBlocDelegate extends BlocDelegate {
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
-  final dio = Dio();
-  final userRepository = UserRepository(dio: dio);
-
   runApp(
     BlocProvider<AuthenticationBloc>(
       create: (context) {
-        return AuthenticationBloc(userRepository: userRepository)
-          ..add(AppStarted());
+        return AuthenticationBloc()..add(AppStartedEvent());
       },
-      child: MyApp(userRepository: userRepository),
+      child: MyApp(),
     ),
   );
 }

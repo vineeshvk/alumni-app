@@ -1,25 +1,21 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
 
 abstract class AuthenticationEvent extends Equatable {
-  const AuthenticationEvent();
-
   @override
   List<Object> get props => [];
 }
 
-class AppStarted extends AuthenticationEvent {}
-
-class LoggedIn extends AuthenticationEvent {
-  final String data;
-
-  const LoggedIn({@required this.data});
-
+class AppStartedEvent extends AuthenticationEvent {
   @override
-  List<Object> get props => [data];
-
-  @override
-  String toString() => 'LoggedIn { data: $data }';
+  String toString() => "AppStartedEvent";
 }
 
-class LoggedOut extends AuthenticationEvent {}
+class AuthenticationLoggedInEvent extends AuthenticationEvent {
+  @override
+  String toString() => 'AuthenticationLoggedInEvent';
+}
+
+class AuthenticationLoggedOutEvent extends AuthenticationEvent {
+  @override
+  String toString() => "AuthenticationLoggedOutEvent";
+}

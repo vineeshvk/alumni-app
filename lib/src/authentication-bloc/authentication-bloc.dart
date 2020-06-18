@@ -1,41 +1,36 @@
 import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
-import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
-import 'package:flutter/widgets.dart';
+import 'package:alumni_app/src/utils/preference_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  final UserRepository userRepository;
-
-  AuthenticationBloc({@required this.userRepository});
-
   @override
-  AuthenticationState get initialState => AuthenticationUninitialized();
+  AuthenticationState get initialState => AuthenticationInitialState();
 
   @override
   Stream<AuthenticationState> mapEventToState(
       AuthenticationEvent event) async* {
-    if (event is AppStarted) {
-      final bool hasToken = await userRepository.hasToken();
-
-      if (hasToken)
-        yield AuthenticationAuthenticated();
-      else
-        yield AuthenticationUnauthenticated();
+    if (event is AppStartedEvent) {
+      yield* _mapAppStartEventToState();
     }
 
-    if (event is LoggedIn) {
-      yield AuthenticationLoading();
-      await userRepository.persistToken(event.data);
-      yield AuthenticationAuthenticated();
-      print("persist");
+    if (event is AuthenticationLoggedInEvent) {
+      yield AuthenticationLoggedInState();
     }
 
-    if (event is LoggedOut) {
-      yield AuthenticationLoading();
-      await userRepository.deleteToken();
-      yield AuthenticationUnauthenticated();
+    if (event is AuthenticationLoggedOutEvent) {
+      print("from loggout event");
+      await PreferenceHelper.removeToken();
+      yield AuthenticationLoggedInState();
     }
+  }
+
+  Stream<AuthenticationState> _mapAppStartEventToState() async* {
+    final hasToken = await PreferenceHelper.hasToken();
+    if (hasToken)
+      yield AuthenticationLoggedInState();
+    else
+      yield AuthenticationLoggedOutState();
   }
 }

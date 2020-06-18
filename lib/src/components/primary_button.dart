@@ -12,7 +12,7 @@ class PrimaryButton extends StatelessWidget {
       {@required this.onPressed,
       @required this.text,
       this.colorBrightness,
-      this.isLoading,
+      this.isLoading = false,
       this.color});
 
   @override
