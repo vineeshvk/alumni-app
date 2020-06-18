@@ -1,6 +1,6 @@
 
 
-class EventItemModel {
+class FeedModel {
   String id;
   String title;
   String description;
@@ -10,7 +10,7 @@ class EventItemModel {
   String venue;
   String scheduledDate;
 
-  EventItemModel({
+  FeedModel({
     this.id,
     this.title,
     this.description,
@@ -21,8 +21,8 @@ class EventItemModel {
     this.scheduledDate,
   });
 
-  factory EventItemModel.fromJson(Map json) {
-    return EventItemModel(
+  factory FeedModel.fromJson(Map json) {
+    return FeedModel(
       id: json["id"],
       title: json["title"],
       description: json["description"],

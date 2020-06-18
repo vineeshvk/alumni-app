@@ -2,15 +2,14 @@ import 'package:alumni_app/src/models/event_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class EventItemWidget extends StatelessWidget {
-  final EventItemModel event;
+class FeedItemWidget extends StatelessWidget {
+  final FeedModel event;
 
-  EventItemWidget({@required this.event});
+  FeedItemWidget({@required this.event});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // margin: EdgeInsets.all(25),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(

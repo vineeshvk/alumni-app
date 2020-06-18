@@ -1,6 +1,10 @@
-import 'package:alumni_app/src/screens/feed/bloc/event_item_bloc.dart';
-import 'package:alumni_app/src/screens/feed/bloc/event_item_event.dart';
-import 'package:alumni_app/src/screens/feed/feed_l.dart';
+import 'package:alumni_app/src/components/full_screen_widget.dart';
+import 'package:alumni_app/src/screens/feed/bloc/feed_bloc.dart';
+import 'package:alumni_app/src/screens/feed/bloc/feed_event.dart';
+import 'package:alumni_app/src/screens/feed/bloc/feed_state.dart';
+import 'package:alumni_app/src/screens/feed/feed_item.dart';
+import 'package:alumni_app/src/utils/image_resources.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,20 +16,19 @@ class EventScreen extends StatefulWidget {
 }
 
 class _EventScreenState extends State<EventScreen> {
-  EventItemBloc _eventBloc;
-  int count = 0;
+  FeedBloc _feedBloc;
 
   @override
   initState() {
-    _eventBloc = BlocProvider.of<EventItemBloc>(context);
-    _eventBloc.add(FetchEventItems());
+    _feedBloc = BlocProvider.of<FeedBloc>(context);
+    _feedBloc.add(FetchFeedEvent());
     super.initState();
   }
 
   @override
   void dispose() {
     print("from dispose event");
-    _eventBloc.close();
+    _feedBloc.close();
     super.dispose();
   }
 
@@ -34,15 +37,11 @@ class _EventScreenState extends State<EventScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("$count"),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.refresh),
               onPressed: () {
-                setState(() {
-                  count++;
-                });
-                _eventBloc.add(FetchEventItems());
+                _feedBloc.add(FetchFeedEvent());
               },
             ),
           ],
@@ -61,11 +60,47 @@ class _EventScreenState extends State<EventScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              EventList()
+              getFeedListWidget()
             ],
           ),
         ),
       ),
+    );
+  }
+
+  getFeedListWidget() {
+    return BlocBuilder<FeedBloc, FeedState>(
+      builder: (context, state) {
+        print("state $state");
+        if (state is FeedFetchFailure)
+          return FullScreenWidget(
+            imageUrl: state.isNetworkError ? ImageResources.errorImage : "",
+            child: Text(state.error, textAlign: TextAlign.center),
+          );
+
+        if (state is FeedFetchSuccess) {
+          if (state.events.length == 0)
+            return FullScreenWidget(
+              imageUrl: ImageResources.emptyImage,
+              child: Text(
+                "There are no events yet.",
+                textAlign: TextAlign.center,
+              ),
+            );
+          return Expanded(
+            child: ListView.separated(
+              itemCount: state.events.length,
+              padding: EdgeInsets.only(top: 15),
+              physics: BouncingScrollPhysics(),
+              separatorBuilder: (ctx, i) => Container(height: 15),
+              itemBuilder: (context, index) {
+                return FeedItemWidget(event: state.events[index]);
+              },
+            ),
+          );
+        }
+        return FullScreenWidget(child: CupertinoActivityIndicator());
+      },
     );
   }
 }

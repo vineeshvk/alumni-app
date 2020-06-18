@@ -22,7 +22,7 @@ class AuthenticationBloc
     if (event is AuthenticationLoggedOutEvent) {
       print("from loggout event");
       await PreferenceHelper.removeToken();
-      yield AuthenticationLoggedInState();
+      yield AuthenticationLoggedOutState();
     }
   }
 

@@ -5,25 +5,25 @@ import 'package:alumni_app/src/utils/dio_helper.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
-class EventItemRepository {
+class FeedRepository {
 
 
-  static Future<List<EventItemModel>> getEvents() async {
-    List<EventItemModel> events;
+  static Future<List<FeedModel>> getFeeds() async {
+    List<FeedModel> feeds;
 
     Response res = await dio.get(API_BASE_URL + APIEndpoints.getEvents);
 
     if (res.data["error"] == null) {
       List ev = res.data["events"];
-      events = ev.map((e) => EventItemModel.fromJson(e)).toList();
+      feeds = ev.map((e) => FeedModel.fromJson(e)).toList();
     } else
       throw new AlumniException(res.data["error"]);
 
-    return events;
+    return feeds;
   }
 
-  static  Future<EventItemModel> deleteEvent({@required String eventId}) async {
-    EventItemModel event;
+  static  Future<FeedModel> deleteFeed({@required String eventId}) async {
+    FeedModel feed;
 
     Response res = await dio.delete(
       API_BASE_URL + APIEndpoints.deleteEvent,
@@ -31,15 +31,15 @@ class EventItemRepository {
     );
 
     if (res.data["error"] == null) {
-      event = EventItemModel.fromJson(res.data["event"]);
+      feed = FeedModel.fromJson(res.data["event"]);
     } else
       throw new AlumniException(res.data["error"]);
 
-    return event;
+    return feed;
   }
 
- static Future<EventItemModel> addEvent({@required EventItemModel eventInput}) async {
-    EventItemModel event;
+ static Future<FeedModel> addFeed({@required FeedModel eventInput}) async {
+    FeedModel feed;
 
     Response res = await dio.post(
       API_BASE_URL + APIEndpoints.addEvent,
@@ -47,10 +47,10 @@ class EventItemRepository {
     );
 
     if (res.data["error"] == null) {
-      event = EventItemModel.fromJson(res.data["event"]);
+      feed = FeedModel.fromJson(res.data["event"]);
     } else
       throw new AlumniException(res.data["error"]);
 
-    return event;
+    return feed;
   }
 }

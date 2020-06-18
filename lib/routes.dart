@@ -1,6 +1,6 @@
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
-import 'package:alumni_app/src/screens/home/bloc/app_bloc.dart';
+import 'package:alumni_app/src/screens/feed/bloc/feed_bloc.dart';
 import 'package:alumni_app/src/screens/home/home.dart';
 import 'package:alumni_app/src/screens/login/bloc/login_bloc.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
@@ -39,11 +39,9 @@ class PageBuilder {
 
   static Widget buildHomeScreenPage() {
     print("from buildHome");
-    return BlocProvider<AppBloc>(
+    return BlocProvider<FeedBloc>(
       create: (context) {
-        AuthenticationBloc authenticationBloc =
-            BlocProvider.of<AuthenticationBloc>(context);
-        return AppBloc(authenticationBloc);
+        return FeedBloc();
       },
       child: HomeScreen(),
     );
@@ -102,14 +100,13 @@ Widget addAuthBloc(BuildContext context, Widget widget) {
   return BlocListener(
     bloc: BlocProvider.of<AuthenticationBloc>(context),
     listener: (context, state) {
-      print("State =============== $state");
       if (state is AuthenticationLoggedInState) {
         Navigator.pushNamedAndRemoveUntil(
             context, HomeScreen.routeName, (v) => false);
       }
       if (state is AuthenticationLoggedOutState) {
         Navigator.pushNamedAndRemoveUntil(
-            context, LoginScreen.routeName, (v) => false);
+            context, WelcomeScreen.routeName, (v) => false,);
       }
     },
     child: BlocBuilder(
