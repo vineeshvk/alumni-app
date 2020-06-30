@@ -1,4 +1,4 @@
-import 'package:alumni_app/src/components/primary_button_light.dart';
+import 'package:alumni_app/src/components/primary_button.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
 import 'package:alumni_app/src/screens/register/register.dart';
 import 'package:alumni_app/src/utils/image_resources.dart';
@@ -38,11 +38,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ...getWelcomeTexts(),
             Container(
               child: getButtonBar(),
-              margin: EdgeInsets.only(top: 150, bottom: 50),
+              margin: EdgeInsets.only(top: 150, bottom: 30),
             ),
-            PrimaryButtonLight(
+            PrimaryButton.accent(
+              text: StringResources.signInAsAdminText,
               onPressed: () {},
-              text: StringResources.signInAsAdmin,
             ),
           ],
         ),
@@ -58,11 +58,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       ),
       Text(
         StringResources.toAlumniAppText,
-        style: TextStyle(fontSize: 26, color: Colors.white60),
+        style: TextStyle(fontSize: 26, color: Colors.black45),
       ),
       Text(
         StringResources.connectCollegeText,
-        style: TextStyle(fontSize: 26, color: Colors.white60),
+        style: TextStyle(fontSize: 26, color: Colors.black45),
       ),
     ];
   }
@@ -75,15 +75,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       alignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         RaisedButton(
-          child: Text("SIGN IN"),
+          child: Text(StringResources.signInButtonText),
           onPressed: () => onSignInPressed(context),
         ),
         FlatButton(
-          child: Text("SIGN UP"),
+          textColor: Colors.black,
+          child: Text(StringResources.signUpText),
           onPressed: () => onSignUpPressed(context),
         ),
       ],
     );
   }
-
 }

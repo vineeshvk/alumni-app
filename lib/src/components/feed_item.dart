@@ -9,14 +9,15 @@ class FeedItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-          width: 1,
-          color: Colors.white,
-        ),
-      ),
+    return Card(
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(10),
+      //   border: Border.all(
+      //     width: 1,
+      //     color: Colors.white,
+      //   ),
+      // ),
+      color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -25,7 +26,7 @@ class FeedItemWidget extends StatelessWidget {
             child: Image.network(
               event.image,
               height: 200,
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               width: double.infinity,
             ),
           ),

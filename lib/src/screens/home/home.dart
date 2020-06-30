@@ -1,8 +1,12 @@
+import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/screens/chat/chat.dart';
+import 'package:alumni_app/src/screens/feed/bloc/feed_bloc.dart';
 import 'package:alumni_app/src/screens/feed/feed.dart';
+import 'package:alumni_app/src/screens/profile/bloc/profile_bloc.dart';
 import 'package:alumni_app/src/screens/profile/profile.dart';
 import 'package:alumni_app/src/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:outline_material_icons/outline_material_icons.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,12 +18,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedTab = 0;
-  List<Widget> _screenList = List<Widget>();
+  List<Widget> _screenList;
 
-  @override
   initState() {
-    print("recreating main");
-    _screenList.addAll([EventScreen(), ChatScreen(), ProfileScreen()]);
+    _screenList = [
+      BlocProvider(create: (ctx) => FeedBloc(), child: FeedScreen()),
+      ChatScreen(),
+      BlocProvider(
+        child: ProfileScreen(),
+        create: (ctx) => ProfileBloc(
+          BlocProvider.of<AuthenticationBloc>(context),
+        ),
+      )
+    ];
     super.initState();
   }
 
@@ -29,12 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: _screenList[_selectedTab],
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: PRIMARY_DARK,
+          backgroundColor: Colors.white,
           showSelectedLabels: false,
           showUnselectedLabels: false,
           currentIndex: _selectedTab,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.blueGrey,
+          selectedItemColor: PRIMARY_DARK,
+          unselectedItemColor: Colors.black26,
           onTap: (t) => setState(() {
             _selectedTab = t;
           }),

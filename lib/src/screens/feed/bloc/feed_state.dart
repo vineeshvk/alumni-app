@@ -7,31 +7,38 @@ abstract class FeedState extends Equatable {
   List<Object> get props => [];
 }
 
-class FeedInitiatedState extends FeedState {
+class FeedInitialState extends FeedState {
   @override
-  String toString() => "FeedInitiatedState";
+  String toString() => "FeedInitialState";
 }
 
-class FeedFetchLoading extends FeedState {
+class FeedFetchLoadingState extends FeedState {
   @override
-  String toString() => "FeedInitiatedState";
+  String toString() => "FeedFetchLoadingState";
 }
 
-class FeedFetchSuccess extends FeedState {
+class FeedFetchSuccessState extends FeedState {
   final List<FeedModel> events;
 
-  FeedFetchSuccess({@required this.events});
+  FeedFetchSuccessState({@required this.events});
 
   @override
   List<Object> get props => [events];
+
+  @override
+  String toString() => "FeedFetchSuccessState";
 }
 
-class FeedFetchFailure extends FeedState {
+class FeedFetchFailureState extends FeedState {
   final String error;
   final bool isNetworkError;
 
-  FeedFetchFailure({@required this.error, this.isNetworkError = false});
+  FeedFetchFailureState({@required this.error, this.isNetworkError = false});
 
   @override
   List<Object> get props => [error, isNetworkError];
+
+   
+  @override
+  String toString() => "FeedFetchFailureState";
 }

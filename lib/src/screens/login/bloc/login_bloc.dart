@@ -24,17 +24,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield LoginLoadingState();
 
       try {
-        final token = await LoginRepository.login(
+        final response = await LoginRepository.login(
           emailController.text,
           passwordController.text,
         );
 
-        if (token.error == null) {
-          await PreferenceHelper.saveToken(token.user.id);
+        if (response.error == null) {
+          await PreferenceHelper.saveToken(response.user.id);
           authenticationBloc.add(AuthenticationLoggedInEvent());
           yield LoginInitialState();
         } else {
-          yield LoginFailureState(error: token.error);
+          yield LoginFailureState(error: response.error);
         }
       } catch (error) {
         yield LoginFailureState(error: error.toString());

@@ -1,23 +1,16 @@
 import 'package:equatable/equatable.dart';
 
 abstract class RegisterEvent extends Equatable {
-  const RegisterEvent();
-}
-
-class EmailExistCheck extends RegisterEvent {
   @override
   List<Object> get props => [];
-
-  @override
-  String toString() => 'RegisterEmailCheck';
 }
 
-class RegisterButtonPressed extends RegisterEvent {
-  const RegisterButtonPressed();
-
+class CheckEmailExistEvent extends RegisterEvent {
   @override
-  List<Object> get props => [];
+  String toString() => 'CheckEmailExistEvent';
+}
 
+class RegisterButtonPressedEvent extends RegisterEvent {
   @override
-  String toString() => 'RegisterButtonPressed';
+  String toString() => 'RegisterButtonPressedEvent';
 }

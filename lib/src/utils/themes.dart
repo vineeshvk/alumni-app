@@ -3,28 +3,33 @@ import 'package:flutter/material.dart';
 
 final defaultTheme = ThemeData(
   fontFamily: "WorkSans",
-  brightness: Brightness.dark,
-  scaffoldBackgroundColor: PRIMARY_DARK,
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: Colors.white,
   textTheme: TextTheme(
     button: TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,
-    ),
-  ),
-  inputDecorationTheme: InputDecorationTheme(
-    labelStyle: TextStyle(color: Colors.white),
-    focusedBorder: UnderlineInputBorder(
-      borderSide: BorderSide(color: SECONDARY_TEXT, width: 3),
-    ),
-    enabledBorder: UnderlineInputBorder(
-      borderSide: BorderSide(color: Colors.white, width: 3),
+      color: Colors.white,
     ),
   ),
   buttonTheme: ButtonThemeData(
-    height: 50,
-    buttonColor: SECONDARY_DARK,
-    shape: RoundedRectangleBorder(
+    height: 50, buttonColor: PRIMARY_DARK,
+    shape: BeveledRectangleBorder(
       borderRadius: BorderRadius.circular(10),
+    ),
+
+    //  RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.circular(10),
+    // ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    filled: true,
+    labelStyle: TextStyle(color: Colors.black),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.black),
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.black),
     ),
   ),
 );

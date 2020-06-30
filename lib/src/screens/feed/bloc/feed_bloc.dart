@@ -1,13 +1,13 @@
 import 'package:alumni_app/src/models/event_model.dart';
+import 'package:alumni_app/src/respositories/feed_respository.dart';
 import 'package:alumni_app/src/screens/feed/bloc/feed_event.dart';
-import 'package:alumni_app/src/screens/feed/bloc/feed_repository.dart';
 import 'package:alumni_app/src/screens/feed/bloc/feed_state.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeedBloc extends Bloc<FeedEvent, FeedState> {
   @override
-  FeedState get initialState => FeedInitiatedState();
+  FeedState get initialState => FeedInitialState();
 
   @override
   Stream<FeedState> mapEventToState(FeedEvent event) async* {
@@ -23,19 +23,19 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   Stream<FeedState> _mapFetchFeedToState() async* {
     try {
       print("From fetch");
-      yield FeedFetchLoading();
+      yield FeedFetchLoadingState();
 
       List<FeedModel> events = await FeedRepository.getFeeds();
 
-      yield FeedFetchSuccess(events: events);
+      yield FeedFetchSuccessState(events: events);
     } on DioError catch (e) {
       print(e);
-      yield FeedFetchFailure(
+      yield FeedFetchFailureState(
         isNetworkError: true,
         error: "There seems to be a problem with your Network Connection.",
       );
     } catch (e) {
-      yield FeedFetchFailure(error: e);
+      yield FeedFetchFailureState(error: e);
     }
   }
 }

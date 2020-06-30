@@ -1,7 +1,10 @@
+import 'package:alumni_app/src/components/back_button.dart';
+import 'package:alumni_app/src/components/error_message.dart';
 import 'package:alumni_app/src/components/input_field.dart';
-import 'package:alumni_app/src/components/next_button.dart';
+import 'package:alumni_app/src/components/primary_button.dart';
 import 'package:alumni_app/src/screens/login/bloc/login_bloc.dart';
 import 'package:alumni_app/src/screens/login/bloc/login_event.dart';
+import 'package:alumni_app/src/screens/login/bloc/login_state.dart';
 import 'package:alumni_app/src/utils/string_resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
   }
 
-  void _loginOnPress(context) {
+  void _loginOnPress() {
     _loginBloc.add(LoginButtonPressedEvent());
   }
 
@@ -31,21 +34,18 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: Scaffold(
         body: ListView(
-          padding: EdgeInsets.all(32),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
           children: <Widget>[
-            Align(
-              alignment: Alignment.topLeft,
-              child: BackButton(onPressed: () => Navigator.pop(context)),
-            ),
+            CustomBackButton(left: 0),
             Container(height: 10),
             Text(
-              StringResources.welcomeText,
+              StringResources.signInText,
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
             Container(height: 10),
             Text(
-              "please sign in to continue",
-              style: TextStyle(fontSize: 24, color: Colors.white60),
+              StringResources.signInToContinueText,
+              style: TextStyle(fontSize: 24, color: Colors.black38),
             ),
             getTextFormWidget(),
           ],
@@ -55,21 +55,40 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget getTextFormWidget() {
-    return Column(
-      children: <Widget>[
-        Container(height: 60),
-        InputField(label: "Email", controller: _loginBloc.emailController),
-        Container(height: 40),
-        InputField(
-          label: "Password",
-          controller: _loginBloc.passwordController,
-        ),
-        Container(height: 100),
-        Align(
-          alignment: Alignment.bottomRight,
-          child: NextButton(onPressed: _loginOnPress),
-        )
-      ],
+    final screenSize = MediaQuery.of(context).size;
+
+    return Container(
+      height: screenSize.height * 0.55,
+      child: Column(
+        children: <Widget>[
+          Container(height: 60),
+          InputField(
+            label: StringResources.emailText,
+            controller: _loginBloc.emailController,
+            keyboardType: TextInputType.emailAddress,
+          ),
+          Container(height: 40),
+          InputField(
+            label: StringResources.passwordText,
+            controller: _loginBloc.passwordController,
+            obscureText: true,
+          ),
+          Expanded(child: Container()),
+          BlocBuilder<LoginBloc, LoginState>(
+            builder: (context, state) {
+              return Column(children: [
+                if (state is LoginFailureState)
+                  ErrorMessageWidget(message: state.error),
+                PrimaryButton.accent(
+                  isLoading: state is LoginLoadingState,
+                  text: StringResources.signInButtonText,
+                  onPressed: _loginOnPress,
+                ),
+              ]);
+            },
+          )
+        ],
+      ),
     );
   }
 

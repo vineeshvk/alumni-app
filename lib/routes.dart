@@ -1,6 +1,7 @@
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
-import 'package:alumni_app/src/screens/feed/bloc/feed_bloc.dart';
+import 'package:alumni_app/src/screens/add-feed/add_feed.dart';
+import 'package:alumni_app/src/screens/add-feed/bloc/add_feed_bloc.dart';
 import 'package:alumni_app/src/screens/home/home.dart';
 import 'package:alumni_app/src/screens/login/bloc/login_bloc.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
@@ -20,6 +21,8 @@ Route<dynamic> getRoute(RouteSettings settings) {
       return buildHomeScreen();
     case RegisterScreen.routeName:
       return buildRegisterScreen();
+    case AddFeedScreen.routeName:
+      return buildAddFeedScreen();
     default:
       return null;
   }
@@ -29,34 +32,34 @@ class PageBuilder {
   static Widget buildLoginScreenPage() {
     return BlocProvider<LoginBloc>(
       create: (context) {
-        AuthenticationBloc authenticationBloc =
-            BlocProvider.of<AuthenticationBloc>(context);
-        return LoginBloc(authenticationBloc);
+        return LoginBloc(BlocProvider.of<AuthenticationBloc>(context));
       },
       child: LoginScreen(),
     );
   }
 
   static Widget buildHomeScreenPage() {
-    print("from buildHome");
-    return BlocProvider<FeedBloc>(
-      create: (context) {
-        return FeedBloc();
-      },
-      child: HomeScreen(),
-    );
+    return HomeScreen();
   }
 
   static Widget buildRegisterScreenPage() {
     return BlocProvider<RegisterBloc>(
-        create: (context) {
-          return RegisterBloc();
-        },
-        child: RegisterScreen());
+      create: (context) {
+        return RegisterBloc(BlocProvider.of<AuthenticationBloc>(context));
+      },
+      child: RegisterScreen(),
+    );
   }
 
   static Widget buildWelcomeScreenPage() {
     return WelcomeScreen();
+  }
+
+  static Widget buildAddFeedScreenPage() {
+    return BlocProvider<AddFeedBloc>(
+      create: (context) => AddFeedBloc(),
+      child: AddFeedScreen(),
+    );
   }
 }
 
@@ -96,6 +99,15 @@ MaterialPageRoute buildRegisterScreen() {
   );
 }
 
+MaterialPageRoute buildAddFeedScreen() {
+  return MaterialPageRoute(
+    builder: (context) => addAuthBloc(
+      context,
+      PageBuilder.buildAddFeedScreenPage(),
+    ),
+  );
+}
+
 Widget addAuthBloc(BuildContext context, Widget widget) {
   return BlocListener(
     bloc: BlocProvider.of<AuthenticationBloc>(context),
@@ -106,7 +118,7 @@ Widget addAuthBloc(BuildContext context, Widget widget) {
       }
       if (state is AuthenticationLoggedOutState) {
         Navigator.pushNamedAndRemoveUntil(
-            context, WelcomeScreen.routeName, (v) => false,);
+            context, WelcomeScreen.routeName, (v) => false);
       }
     },
     child: BlocBuilder(

@@ -1,6 +1,6 @@
-import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
-import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
 import 'package:alumni_app/src/components/primary_button.dart';
+import 'package:alumni_app/src/screens/profile/bloc/profile_bloc.dart';
+import 'package:alumni_app/src/screens/profile/bloc/profile_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,11 +12,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  AuthenticationBloc _authBloc;
+  ProfileBloc _profileBloc;
 
   @override
   void initState() {
-    _authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    _profileBloc = BlocProvider.of<ProfileBloc>(context);
     super.initState();
   }
 
@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: PrimaryButton(
                 text: "LOG OUT",
                 onPressed: () {
-                  _authBloc.add(AuthenticationLoggedOutEvent());
+                  _profileBloc.add(ProfileLogoutEvent());
                 },
               ),
             )
@@ -49,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void dispose() {
-    _authBloc.close();
+    _profileBloc.close();
     super.dispose();
   }
 }

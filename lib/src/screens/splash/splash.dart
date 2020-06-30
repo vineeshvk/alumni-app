@@ -1,4 +1,5 @@
 import 'package:alumni_app/src/utils/colors.dart';
+import 'package:alumni_app/src/utils/image_resources.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -13,7 +14,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset("assets/images/logo-dark.png"),
+            Image.asset(ImageResources.logoDarkImage),
             Text(
               "Alumni app",
               style: TextStyle(

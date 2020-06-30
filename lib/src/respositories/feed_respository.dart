@@ -6,8 +6,6 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 class FeedRepository {
-
-
   static Future<List<FeedModel>> getFeeds() async {
     List<FeedModel> feeds;
 
@@ -22,7 +20,7 @@ class FeedRepository {
     return feeds;
   }
 
-  static  Future<FeedModel> deleteFeed({@required String eventId}) async {
+  static Future<FeedModel> deleteFeed({@required String eventId}) async {
     FeedModel feed;
 
     Response res = await dio.delete(
@@ -38,12 +36,26 @@ class FeedRepository {
     return feed;
   }
 
- static Future<FeedModel> addFeed({@required FeedModel eventInput}) async {
+  static Future<FeedModel> addFeed({
+    String title,
+    String description,
+    String image,
+    String contact,
+    String venue,
+    String scheduledDate,
+  }) async {
     FeedModel feed;
 
     Response res = await dio.post(
       API_BASE_URL + APIEndpoints.addEvent,
-      data: eventInput.toJson(),
+      data: {
+        "title": title,
+        "description": description,
+        "image": image,
+        "contact": contact,
+        "venue": venue,
+        "scheduledDate": scheduledDate,
+      },
     );
 
     if (res.data["error"] == null) {

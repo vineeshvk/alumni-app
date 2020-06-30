@@ -2,60 +2,83 @@ import 'dart:async';
 
 import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_event.dart';
-import 'package:alumni_app/src/authentication-bloc/user-repository.dart';
-import 'package:alumni_app/src/models/register_input_model.dart';
+import 'package:alumni_app/src/respositories/register_repository.dart';
 import 'package:alumni_app/src/screens/register/bloc/register_event.dart';
 import 'package:alumni_app/src/screens/register/bloc/register_state.dart';
+import 'package:alumni_app/src/utils/preference_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
-  final pageCtrl = PageController(initialPage: 0);
 
-  RegisterInputModal registerInputs = new RegisterInputModal();
+  //TextField Controllers
+  final emailCtrl = TextEditingController();
+  final dobCtrl = TextEditingController();
+  final passwordCtrl = TextEditingController();
+  final nameCtrl = TextEditingController();
+  final phoneCtrl = TextEditingController();
+  final genderCtrl = TextEditingController();
+  final collegeCtrl = TextEditingController();
+  final registerNoCtrl = TextEditingController();
+  final batchCtrl = TextEditingController();
+  final majorCtrl = TextEditingController();
+  final degreeCtrl = TextEditingController();
 
-  RegisterBloc({
-    @required this.userRepository,
-    @required this.authenticationBloc,
-  })  : assert(userRepository != null),
-        assert(authenticationBloc != null);
+  final pageCtrl = PageController();
 
-  RegisterState get initialState => RegisterInitiated();
+  RegisterBloc(this.authenticationBloc);
+
+  RegisterState get initialState => RegisterInitialState();
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
     try {
-      if (event is RegisterButtonPressed) {
+      if (event is RegisterButtonPressedEvent) {
         yield* _mapRegisterButtonPressedEvent();
-      } else if (event is EmailExistCheck) {
+      } else if (event is CheckEmailExistEvent) {
         yield* _mapEmailExistCheck();
       }
     } catch (error) {
-      yield RegisterFailure(error: error.toString());
+      yield RegisterFailureState(error: error.toString());
     }
   }
 
   Stream<RegisterState> _mapRegisterButtonPressedEvent() async* {
-    yield RegisterLoading();
+    yield RegisterLoadingState();
 
-    final id = await userRepository.register(inputs: registerInputs);
+    final token = await ResgisterRepository.register(
+      email: emailCtrl.text,
+      password: passwordCtrl.text,
+      name: nameCtrl.text,
+      dob: dobCtrl.text,
+      gender: genderCtrl.text,
+      collegeId: collegeCtrl.text,
+      batch: batchCtrl.text,
+      degree: degreeCtrl.text,
+      major: majorCtrl.text,
+      phone: phoneCtrl.text,
+      registerNo: registerNoCtrl.text,
+    );
 
-    authenticationBloc.add(AuthenticationLoggedInEvent());
+    if (token.error == null) {
+      await PreferenceHelper.saveToken(token.user.id);
 
-    yield RegisterInitiated();
+      authenticationBloc.add(AuthenticationLoggedInEvent());
+      yield RegisterInitialState();
+    } else {
+      yield RegisterFailureState(error: token.error);
+    }
   }
 
   Stream<RegisterState> _mapEmailExistCheck() async* {
-    yield RegisterLoading();
+    yield RegisterLoadingState();
 
-    final data = await userRepository.hasSameEmail(email: registerInputs.email);
+    final data = await ResgisterRepository.hasSameEmail(emailCtrl.text);
 
     if (data)
-      yield RegisterFailure(error: "Email already exists");
+      yield RegisterFailureState(error: "Email already exists");
     else
-      yield EmailDoesNotExist(email: registerInputs.email);
+      yield EmailDoesNotExistState(email: emailCtrl.text);
   }
 }

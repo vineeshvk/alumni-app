@@ -2,12 +2,17 @@ import 'package:alumni_app/src/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DatePicker extends StatelessWidget {
+class CustomDatePicker extends StatelessWidget {
   final void Function(DateTime newDate) onDateTimeChanged;
   final DateTime initialDateTime;
+  final int maxYear;
 
-  const DatePicker({Key key, this.onDateTimeChanged, this.initialDateTime})
-      : super(key: key);
+  const CustomDatePicker({
+    Key key,
+    this.onDateTimeChanged,
+    this.initialDateTime,
+    this.maxYear,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class DatePicker extends StatelessWidget {
           onDateTimeChanged: onDateTimeChanged,
           maximumDate: DateTime.now(),
           minimumYear: 1950,
-          maximumYear: currentYear,
+          maximumYear: maxYear ?? currentYear,
           minuteInterval: 1,
           mode: CupertinoDatePickerMode.date,
         ),

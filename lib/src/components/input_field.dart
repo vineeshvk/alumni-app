@@ -7,15 +7,32 @@ class InputField extends StatelessWidget {
   final TextInputType keyboardType;
   final void Function() onTap;
   final void Function(String text) onChanged;
+  final int maxLines;
+  final int minLines;
 
-  const InputField({
-    @required this.label,
-    this.controller,
-    this.obscureText = false,
-    this.onTap,
-    this.onChanged,
-    this.keyboardType,
-  });
+  const InputField(
+      {@required this.label,
+      this.controller,
+      this.obscureText = false,
+      this.onTap,
+      this.onChanged,
+      this.keyboardType,
+      this.maxLines = 1,
+      this.minLines});
+
+  factory InputField.multiLine({
+    @required label,
+    controller,
+    onChanged,
+  }) {
+    return InputField(
+      label: label,
+      controller: controller,
+      onChanged: onChanged,
+      maxLines: null,
+      minLines: 5,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +41,13 @@ class InputField extends StatelessWidget {
       obscureText: obscureText,
       onTap: onTap,
       onChanged: onChanged,
-      maxLength: null,
+      maxLines: maxLines,
+      minLines: minLines,
       keyboardType: keyboardType,
       decoration: InputDecoration(
-        enabled: true,
         labelText: label,
+        floatingLabelBehavior: FloatingLabelBehavior.auto,
+        alignLabelWithHint: maxLines == null,
       ),
     );
   }
