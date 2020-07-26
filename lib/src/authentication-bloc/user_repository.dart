@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 class UserRepository {
   Future<String> register({@required RegisterInputModal inputs}) async {
     Response res = await dio.post(
-      API_BASE_URL + APIEndpoints.register,
+      API_BASE_URL + APIEndpoints.alumniRegister,
       data: inputs.toJson(),
     );
     print(" from res ${res.data}");

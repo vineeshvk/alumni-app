@@ -88,7 +88,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _registerBloc.registerNoCtrl.dispose();
     _registerBloc.batchCtrl.dispose();
     _registerBloc.majorCtrl.dispose();
-    _registerBloc.degreeCtrl.dispose();
     _registerBloc.close();
 
     super.dispose();

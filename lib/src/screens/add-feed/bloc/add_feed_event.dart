@@ -10,3 +10,7 @@ class AddNewFeedEvent extends AddFeedEvent {
   String toString() => "AddNewFeedEvent";
 }
 
+class AddImageEvent extends AddFeedEvent {
+  @override
+  String toString() => "AddImageEvent";
+}

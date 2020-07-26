@@ -9,7 +9,7 @@ class FeedRepository {
   static Future<List<FeedModel>> getFeeds() async {
     List<FeedModel> feeds;
 
-    Response res = await dio.get(API_BASE_URL + APIEndpoints.getEvents);
+    Response res = await dio.get(APIEndpoints.getEvents);
 
     if (res.data["error"] == null) {
       List ev = res.data["events"];
@@ -24,7 +24,7 @@ class FeedRepository {
     FeedModel feed;
 
     Response res = await dio.delete(
-      API_BASE_URL + APIEndpoints.deleteEvent,
+      APIEndpoints.deleteEvent,
       data: {"eventId": eventId},
     );
 
@@ -47,7 +47,7 @@ class FeedRepository {
     FeedModel feed;
 
     Response res = await dio.post(
-      API_BASE_URL + APIEndpoints.addEvent,
+      APIEndpoints.addEvent,
       data: {
         "title": title,
         "description": description,

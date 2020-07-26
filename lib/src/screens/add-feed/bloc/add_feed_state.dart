@@ -21,6 +21,16 @@ class AddFeedSuccessState extends AddFeedState {
   String toString() => "AddFeedSuccessState";
 }
 
+class AddImageLoadingState extends AddFeedState {
+  @override
+  String toString() => "AddImageLoadingState";
+}
+
+class AddImageSuccessState extends AddFeedState {
+  @override
+  String toString() => "AddImageSuccessState";
+}
+
 class AddFeedFailureState extends AddFeedState {
   final String error;
 

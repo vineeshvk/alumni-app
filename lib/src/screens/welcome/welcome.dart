@@ -1,4 +1,5 @@
 import 'package:alumni_app/src/components/primary_button.dart';
+import 'package:alumni_app/src/screens/admin-register/admin_register.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
 import 'package:alumni_app/src/screens/register/register.dart';
 import 'package:alumni_app/src/utils/image_resources.dart';
@@ -13,12 +14,16 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  void onSignInPressed(BuildContext context) {
+  void _onSignInPressed() {
     Navigator.pushNamed(context, LoginScreen.routeName);
   }
 
-  void onSignUpPressed(BuildContext context) {
+  void _onSignUpPressed() {
     Navigator.pushNamed(context, RegisterScreen.routeName);
+  }
+
+  void _onAdminRegisterPressed() {
+    Navigator.pushNamed(context, AdminRegisterScreen.routeName);
   }
 
   @override
@@ -29,20 +34,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           padding: EdgeInsets.all(32),
           physics: BouncingScrollPhysics(),
           children: [
+            Container(height: 60),
             Image.asset(
-              ImageResources.logoDarkImage,
-              width: 120,
-              height: 160,
+              ImageResources.logoImage,
+              width: 20,
+              height: 60,
               alignment: Alignment.centerLeft,
             ),
+            Container(height: 40),
             ...getWelcomeTexts(),
             Container(
               child: getButtonBar(),
               margin: EdgeInsets.only(top: 150, bottom: 30),
             ),
             PrimaryButton.accent(
-              text: StringResources.signInAsAdminText,
-              onPressed: () {},
+              text: StringResources.signUpAsAdminText,
+              onPressed: _onAdminRegisterPressed,
             ),
           ],
         ),
@@ -75,13 +82,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       alignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         RaisedButton(
-          child: Text(StringResources.signInButtonText),
-          onPressed: () => onSignInPressed(context),
+          child: Text(StringResources.signInText.toUpperCase()),
+          onPressed: _onSignInPressed,
         ),
         FlatButton(
           textColor: Colors.black,
-          child: Text(StringResources.signUpText),
-          onPressed: () => onSignUpPressed(context),
+          child: Text(StringResources.signUpText.toUpperCase()),
+          onPressed: _onSignUpPressed,
         ),
       ],
     );

@@ -18,7 +18,7 @@ class ResgisterRepository {
     String degree,
   }) async {
     Response res = await dio.post(
-      APIEndpoints.register,
+      APIEndpoints.alumniRegister,
       data: {
         "email": email,
         "dob": dob,

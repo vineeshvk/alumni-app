@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.asset(ImageResources.logoDarkImage),
+            Image.asset(ImageResources.logoImage),
             Text(
               "Alumni app",
               style: TextStyle(

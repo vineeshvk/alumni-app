@@ -2,10 +2,12 @@ class StringResources {
   static const welcomeText = "Welcome,";
   static const toAlumniAppText = "to the alumni app";
   static const connectCollegeText = "Where you can connect with your college";
-  static const signInAsAdminText = "SIGN IN AS ADMIN";
-  static const signInButtonText = "SIGN IN";
-  static const signUpText = "SIGN UP";
+  static const signUpAsAdminText = "SIGN UP AS ADMIN";
+  static const asAdminText = "as Admin";
+  static const signUpText = "Sign up";
   static const signInToContinueText = "please sign in to continue";
+  static const signUpToContinueText = "please sign up to continue";
+  static const adminSignUpText = "Admin sign up";
   static const emailText = "Email";
   static const passwordText = "Password";
   static const accountInfoText = "Account Info";
@@ -33,7 +35,6 @@ class StringResources {
   static const addNewFeedText = "ADD FEED";
   static const newFeedText = "New Feed";
   static const signInText = "Sign in";
-  
 }
 
 const DEGREE_LIST = ["B.A", "B.Sc", "B.E"];

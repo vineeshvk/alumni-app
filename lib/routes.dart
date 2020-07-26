@@ -2,6 +2,8 @@ import 'package:alumni_app/src/authentication-bloc/authentication-bloc.dart';
 import 'package:alumni_app/src/authentication-bloc/authentication_state.dart';
 import 'package:alumni_app/src/screens/add-feed/add_feed.dart';
 import 'package:alumni_app/src/screens/add-feed/bloc/add_feed_bloc.dart';
+import 'package:alumni_app/src/screens/admin-register/admin-registerbloc/admin_register_bloc.dart';
+import 'package:alumni_app/src/screens/admin-register/admin_register.dart';
 import 'package:alumni_app/src/screens/home/home.dart';
 import 'package:alumni_app/src/screens/login/bloc/login_bloc.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
@@ -14,15 +16,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Route<dynamic> getRoute(RouteSettings settings) {
   switch (settings.name) {
     case WelcomeScreen.routeName:
-      return buildWelcomeScreen();
+      return PageRoutes.buildWelcomeScreen();
     case LoginScreen.routeName:
-      return buildLoginScreen();
+      return PageRoutes.buildLoginScreen();
     case HomeScreen.routeName:
-      return buildHomeScreen();
+      return PageRoutes.buildHomeScreen();
     case RegisterScreen.routeName:
-      return buildRegisterScreen();
+      return PageRoutes.buildRegisterScreen();
     case AddFeedScreen.routeName:
-      return buildAddFeedScreen();
+      return PageRoutes.buildAddFeedScreen();
+    case AdminRegisterScreen.routeName:
+      return PageRoutes.buildAdminRegisterScreen();
     default:
       return null;
   }
@@ -61,51 +65,69 @@ class PageBuilder {
       child: AddFeedScreen(),
     );
   }
+
+  static Widget buildAdminRegisterScreenPage() {
+    return BlocProvider<AdminRegisterBloc>(
+      create: (context) => AdminRegisterBloc(),
+      child: AdminRegisterScreen(),
+    );
+  }
 }
 
-MaterialPageRoute buildLoginScreen() {
-  return MaterialPageRoute(
-    builder: (context) => addAuthBloc(
-      context,
-      PageBuilder.buildLoginScreenPage(),
-    ),
-  );
-}
+class PageRoutes {
+  static MaterialPageRoute buildLoginScreen() {
+    return MaterialPageRoute(
+      builder: (context) => addAuthBloc(
+        context,
+        PageBuilder.buildLoginScreenPage(),
+      ),
+    );
+  }
 
-MaterialPageRoute buildWelcomeScreen() {
-  return MaterialPageRoute(
-    builder: (context) => addAuthBloc(
-      context,
-      PageBuilder.buildWelcomeScreenPage(),
-    ),
-  );
-}
+  static MaterialPageRoute buildWelcomeScreen() {
+    return MaterialPageRoute(
+      builder: (context) => addAuthBloc(
+        context,
+        PageBuilder.buildWelcomeScreenPage(),
+      ),
+    );
+  }
 
-MaterialPageRoute buildHomeScreen() {
-  return MaterialPageRoute(
-    builder: (context) => addAuthBloc(
-      context,
-      PageBuilder.buildHomeScreenPage(),
-    ),
-  );
-}
+  static MaterialPageRoute buildHomeScreen() {
+    return MaterialPageRoute(
+      builder: (context) => addAuthBloc(
+        context,
+        PageBuilder.buildHomeScreenPage(),
+      ),
+    );
+  }
 
-MaterialPageRoute buildRegisterScreen() {
-  return MaterialPageRoute(
-    builder: (context) => addAuthBloc(
-      context,
-      PageBuilder.buildRegisterScreenPage(),
-    ),
-  );
-}
+  static MaterialPageRoute buildRegisterScreen() {
+    return MaterialPageRoute(
+      builder: (context) => addAuthBloc(
+        context,
+        PageBuilder.buildRegisterScreenPage(),
+      ),
+    );
+  }
 
-MaterialPageRoute buildAddFeedScreen() {
-  return MaterialPageRoute(
-    builder: (context) => addAuthBloc(
-      context,
-      PageBuilder.buildAddFeedScreenPage(),
-    ),
-  );
+  static MaterialPageRoute buildAddFeedScreen() {
+    return MaterialPageRoute(
+      builder: (context) => addAuthBloc(
+        context,
+        PageBuilder.buildAddFeedScreenPage(),
+      ),
+    );
+  }
+
+  static MaterialPageRoute buildAdminRegisterScreen() {
+    return MaterialPageRoute(
+      builder: (context) => addAuthBloc(
+        context,
+        PageBuilder.buildAdminRegisterScreenPage(),
+      ),
+    );
+  }
 }
 
 Widget addAuthBloc(BuildContext context, Widget widget) {

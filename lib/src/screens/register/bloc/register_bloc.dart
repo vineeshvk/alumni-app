@@ -12,6 +12,8 @@ import 'package:flutter/cupertino.dart';
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final AuthenticationBloc authenticationBloc;
 
+  String selectedDegree = "";
+
   //TextField Controllers
   final emailCtrl = TextEditingController();
   final dobCtrl = TextEditingController();
@@ -23,7 +25,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   final registerNoCtrl = TextEditingController();
   final batchCtrl = TextEditingController();
   final majorCtrl = TextEditingController();
-  final degreeCtrl = TextEditingController();
 
   final pageCtrl = PageController();
 
@@ -55,7 +56,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       gender: genderCtrl.text,
       collegeId: collegeCtrl.text,
       batch: batchCtrl.text,
-      degree: degreeCtrl.text,
+      degree: selectedDegree,
       major: majorCtrl.text,
       phone: phoneCtrl.text,
       registerNo: registerNoCtrl.text,

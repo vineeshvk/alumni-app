@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "787093441510",
+    "firebase_url": "https://alumniii.firebaseio.com",
+    "project_id": "alumniii",
+    "storage_bucket": "alumniii.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787093441510:android:b37aaae62184b454c7e427",
+        "android_client_info": {
+          "package_name": "com.example.alumni_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787093441510-n8u4789gvr8e8fidj9f8qh6e01nb81ic.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbMq_FloMRDLhSFY8lB48xJOtS41bDJ6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787093441510-n8u4789gvr8e8fidj9f8qh6e01nb81ic.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

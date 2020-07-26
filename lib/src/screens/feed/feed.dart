@@ -40,7 +40,6 @@ class _FeedScreenState extends State<FeedScreen> {
           onPressed: _onAddFeedButtonPressed,
           backgroundColor: PRIMARY_DARK,
           foregroundColor: Colors.white,
-          // child: Icon(Icons.add),
           label: Text("Feed"),
           icon: Icon(Icons.add),
         ),
@@ -86,12 +85,12 @@ class _FeedScreenState extends State<FeedScreen> {
             );
           return Expanded(
             child: ListView.separated(
-              itemCount: 10 ?? state.events.length,
+              itemCount: state.events.length,
               padding: EdgeInsets.only(top: 15),
               physics: BouncingScrollPhysics(),
               separatorBuilder: (ctx, i) => Container(height: 15),
               itemBuilder: (context, index) {
-                return FeedItemWidget(event: state.events[1]);
+                return FeedItemWidget(event: state.events[index]);
               },
             ),
           );

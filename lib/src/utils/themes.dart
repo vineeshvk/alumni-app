@@ -13,14 +13,11 @@ final defaultTheme = ThemeData(
     ),
   ),
   buttonTheme: ButtonThemeData(
-    height: 50, buttonColor: PRIMARY_DARK,
+    height: 50,
+    buttonColor: PRIMARY_DARK,
     shape: BeveledRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
-
-    //  RoundedRectangleBorder(
-    //   borderRadius: BorderRadius.circular(10),
-    // ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,

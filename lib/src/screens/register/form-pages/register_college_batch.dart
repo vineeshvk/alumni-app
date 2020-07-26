@@ -41,7 +41,7 @@ class _RegisterCollegeBatchState extends State<RegisterCollegeBatch> {
           DropdownButtonFormField<String>(
             hint: Text(StringResources.degreeText),
             onChanged: (val) {
-              _registerBloc.degreeCtrl.value = TextEditingValue(text: val);
+              _registerBloc.selectedDegree = val;
             },
             items: DEGREE_LIST
                 .map((e) => DropdownMenuItem(child: Text(e), value: e))

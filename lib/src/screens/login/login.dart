@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ErrorMessageWidget(message: state.error),
                 PrimaryButton.accent(
                   isLoading: state is LoginLoadingState,
-                  text: StringResources.signInButtonText,
+                  text: StringResources.signInText.toUpperCase(),
                   onPressed: _loginOnPress,
                 ),
               ]);
