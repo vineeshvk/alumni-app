@@ -5,8 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  @override
-  AuthenticationState get initialState => AuthenticationInitialState();
+  AuthenticationBloc() : super(AuthenticationInitialState());
 
   @override
   Stream<AuthenticationState> mapEventToState(

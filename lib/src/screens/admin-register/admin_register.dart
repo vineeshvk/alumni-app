@@ -33,7 +33,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
     return SafeArea(
       child: Scaffold(
         body: ListView(
-          padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
+          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
           children: <Widget>[
             CustomBackButton(left: 0),
             Container(height: 10),
@@ -74,7 +74,7 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
           ),
           Container(height: 40),
           getDropDownField(),
-          Container(height: 40),
+          Container(height: 20),
           Expanded(child: Container()),
           BlocBuilder<AdminRegisterBloc, AdminRegisterState>(
             builder: (context, state) {
@@ -97,20 +97,10 @@ class _AdminRegisterScreenState extends State<AdminRegisterScreen> {
   }
 
   Widget getDropDownField() {
-    var _currencies = [
-      "Food",
-      "Transport",
-      "Personal",
-      "Shopping",
-      "Medical",
-      "Rent",
-      "Movie",
-      "Salary"
-    ];
-
     return FormField<String>(
       builder: (FormFieldState<String> state) {
         return DropdownButtonFormField<String>(
+          onChanged: (d) {},
           items: [
             DropdownMenuItem<String>(
               value: "a",

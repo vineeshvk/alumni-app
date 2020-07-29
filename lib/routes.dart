@@ -132,7 +132,7 @@ class PageRoutes {
 
 Widget addAuthBloc(BuildContext context, Widget widget) {
   return BlocListener(
-    bloc: BlocProvider.of<AuthenticationBloc>(context),
+    cubit: BlocProvider.of<AuthenticationBloc>(context),
     listener: (context, state) {
       if (state is AuthenticationLoggedInState) {
         Navigator.pushNamedAndRemoveUntil(
@@ -144,7 +144,7 @@ Widget addAuthBloc(BuildContext context, Widget widget) {
       }
     },
     child: BlocBuilder(
-      bloc: BlocProvider.of<AuthenticationBloc>(context),
+      cubit: BlocProvider.of<AuthenticationBloc>(context),
       builder: (context, state) {
         return widget;
       },

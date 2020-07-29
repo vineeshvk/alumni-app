@@ -14,9 +14,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final emailController = new TextEditingController();
   final passwordController = new TextEditingController();
 
-  LoginBloc(this.authenticationBloc);
-
-  LoginState get initialState => LoginInitialState();
+  LoginBloc(this.authenticationBloc) : super(LoginInitialState());
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {

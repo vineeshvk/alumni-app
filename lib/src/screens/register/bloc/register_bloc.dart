@@ -28,9 +28,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   final pageCtrl = PageController();
 
-  RegisterBloc(this.authenticationBloc);
-
-  RegisterState get initialState => RegisterInitialState();
+  RegisterBloc(this.authenticationBloc) : super(RegisterInitialState());
 
   @override
   Stream<RegisterState> mapEventToState(RegisterEvent event) async* {

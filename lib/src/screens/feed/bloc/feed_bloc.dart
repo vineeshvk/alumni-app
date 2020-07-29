@@ -6,8 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FeedBloc extends Bloc<FeedEvent, FeedState> {
-  @override
-  FeedState get initialState => FeedInitialState();
+  FeedBloc() : super(FeedInitialState());
 
   @override
   Stream<FeedState> mapEventToState(FeedEvent event) async* {

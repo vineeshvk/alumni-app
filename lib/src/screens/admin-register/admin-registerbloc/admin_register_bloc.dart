@@ -7,8 +7,7 @@ class AdminRegisterBloc extends Bloc<AdminRegisterEvent, AdminRegisterState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  @override
-  AdminRegisterState get initialState => AdminRegisterInitialState();
+  AdminRegisterBloc() : super(AdminRegisterInitialState());
 
   @override
   Stream<AdminRegisterState> mapEventToState(AdminRegisterEvent event) async* {

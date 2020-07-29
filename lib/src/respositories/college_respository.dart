@@ -19,10 +19,13 @@ class CollegeRespository {
     return colleges;
   }
 
-  static Future<CollegeModel> addCollege() async {
+  static Future<CollegeModel> addCollege({String name}) async {
     CollegeModel college;
 
-    Response res = await dio.post(APIEndpoints.addCollege);
+    Response res = await dio.post(
+      APIEndpoints.addCollege,
+      data: {"name": name},
+    );
 
     if (res.data["error"] == null) {
       college = res.data["college"];
@@ -31,5 +34,4 @@ class CollegeRespository {
 
     return college;
   }
-  
 }

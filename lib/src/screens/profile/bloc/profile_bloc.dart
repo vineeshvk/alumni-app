@@ -6,10 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   AuthenticationBloc _authenticationBloc;
-  ProfileBloc(this._authenticationBloc);
 
-  @override
-  ProfileState get initialState => ProfileInitialState();
+  ProfileBloc(this._authenticationBloc) : super(ProfileInitialState());
 
   @override
   Stream<ProfileState> mapEventToState(ProfileEvent event) async* {

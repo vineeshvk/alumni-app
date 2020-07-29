@@ -19,8 +19,7 @@ class AddFeedBloc extends Bloc<AddFeedEvent, AddFeedState> {
   final venueCtrl = TextEditingController();
   final scheduledDateCtrl = TextEditingController();
 
-  @override
-  AddFeedState get initialState => AddFeedInitialState();
+  AddFeedBloc() : super(AddFeedInitialState());
 
   @override
   Stream<AddFeedState> mapEventToState(AddFeedEvent event) async* {
