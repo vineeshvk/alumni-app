@@ -11,6 +11,7 @@ class User {
   String batch;
   String major;
   String degree;
+  bool admin;
 
   User(
       {this.id,
@@ -24,6 +25,7 @@ class User {
       this.registerNo,
       this.batch,
       this.major,
+      this.admin,
       this.degree});
 
   factory User.fromJson(Map json) {
@@ -41,6 +43,8 @@ class User {
         batch: json['batch'],
         major: json['major'],
         degree: json['degree'],
+        admin: json['admin'],
+
       );
     return null;
   }
@@ -57,7 +61,8 @@ class User {
       "registerNo": registerNo,
       "batch": batch,
       "major": major,
-      "degree": degree
+      "degree": degree,
+      "admin": admin
     };
     return inputs;
   }

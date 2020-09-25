@@ -26,7 +26,7 @@ class ResgisterRepository {
         "name": name,
         "phone": phone,
         "gender": gender,
-        "collegeId": collegeId,
+        "collegeId": "2807d212-e079-11ea-87d0-0242ac130003",
         "registerNo": registerNo,
         "batch": batch,
         "major": major,

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:alumni_app/src/models/user.dart';
 import 'package:alumni_app/src/utils/preference_helper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -10,10 +11,10 @@ class FirebaseHelper {
 
   static Future<String> uploadImage(File file) async {
     String url;
-    String user = await PreferenceHelper.getToken();
+    User user = await PreferenceHelper.getToken();
     String fileName = DateTime.now().toIso8601String();
 
-    final imageRef = storage.child("images/${user + "_feed_" + fileName}");
+    final imageRef = storage.child("images/${user.id + "_feed_" + fileName}");
     final uploadTask = imageRef.putFile(file);
 
     final downloadURL = await uploadTask.onComplete;

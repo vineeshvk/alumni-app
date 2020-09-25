@@ -64,23 +64,21 @@ class _RegisterAccountState extends State<RegisterAccount> {
             controller: _registerBloc.passwordCtrl,
           ),
           Expanded(child: Container()),
-          BlocListener<RegisterBloc, RegisterState>(
+          BlocConsumer<RegisterBloc, RegisterState>(
             listener: _emailCheckListener,
-            child: BlocBuilder<RegisterBloc, RegisterState>(
-              builder: (context, state) {
-                return Column(
-                  children: <Widget>[
-                    if (state is RegisterFailureState)
-                      ErrorMessageWidget(message: state.error),
-                    PrimaryButton(
-                      isLoading: state is RegisterLoadingState,
-                      onPressed: _onContinueButtonPressed,
-                      text: StringResources.continueText,
-                    ),
-                  ],
-                );
-              },
-            ),
+            builder: (context, state) {
+              return Column(
+                children: <Widget>[
+                  if (state is RegisterFailureState)
+                    ErrorMessageWidget(message: state.error),
+                  PrimaryButton(
+                    isLoading: state is RegisterLoadingState,
+                    onPressed: _onContinueButtonPressed,
+                    text: StringResources.continueText,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

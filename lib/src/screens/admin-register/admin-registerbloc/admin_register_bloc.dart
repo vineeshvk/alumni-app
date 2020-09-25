@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AdminRegisterBloc extends Bloc<AdminRegisterEvent, AdminRegisterState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  String collegeId;
 
   AdminRegisterBloc() : super(AdminRegisterInitialState());
 
@@ -14,6 +15,7 @@ class AdminRegisterBloc extends Bloc<AdminRegisterEvent, AdminRegisterState> {
     if (event is AdminRegisterRequestEvent) {
       yield AdminRegisterLoadingState();
 
+      
       yield AdminRegisterFailureState(error: "Some inputs missing");
     }
   }

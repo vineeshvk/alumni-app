@@ -5,7 +5,12 @@ abstract class CollegeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetCollegeEvent extends CollegeEvent {}
+class GetCollegeEvent extends CollegeEvent {
+  @override
+  String toString() => "GetCollegeEvent";
+}
 
-class AddCollegeEvent extends CollegeEvent {}
-
+class AddCollegeEvent extends CollegeEvent {
+  @override
+  String toString() => "AddCollegeEvent";
+}

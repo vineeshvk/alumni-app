@@ -61,7 +61,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
 
     if (token.error == null) {
-      await PreferenceHelper.saveToken(token.user.id);
+      await PreferenceHelper.saveToken(token.user);
 
       authenticationBloc.add(AuthenticationLoggedInEvent());
       yield RegisterInitialState();

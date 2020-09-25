@@ -1,4 +1,3 @@
-import 'package:alumni_app/src/components/primary_button.dart';
 import 'package:alumni_app/src/screens/admin-register/admin_register.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
 import 'package:alumni_app/src/screens/register/register.dart';
@@ -47,10 +46,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               child: getButtonBar(),
               margin: EdgeInsets.only(top: 150, bottom: 30),
             ),
-            PrimaryButton.accent(
-              text: StringResources.signUpAsAdminText,
-              onPressed: _onAdminRegisterPressed,
-            ),
+            // PrimaryButton.accent(
+            //   text: StringResources.signUpAsAdminText,
+            //   onPressed: _onAdminRegisterPressed,
+            // ),
           ],
         ),
       ),

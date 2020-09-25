@@ -26,7 +26,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
 
       List<FeedModel> events = await FeedRepository.getFeeds();
 
-      yield FeedFetchSuccessState(events: events);
+      yield FeedFetchSuccessState(events: events.reversed.toList());
     } on DioError catch (e) {
       print(e);
       yield FeedFetchFailureState(

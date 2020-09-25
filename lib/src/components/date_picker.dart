@@ -24,7 +24,7 @@ class CustomDatePicker extends StatelessWidget {
           backgroundColor: PRIMARY_DARK,
           initialDateTime: initialDateTime ?? DateTime(2000, 1, 1),
           onDateTimeChanged: onDateTimeChanged,
-          maximumDate: DateTime.now(),
+          maximumDate: maxYear != null ? DateTime(maxYear) : DateTime.now(),
           minimumYear: 1950,
           maximumYear: maxYear ?? currentYear,
           minuteInterval: 1,

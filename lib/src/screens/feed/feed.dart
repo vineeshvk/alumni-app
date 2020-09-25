@@ -1,11 +1,14 @@
 import 'package:alumni_app/src/components/feed_item.dart';
 import 'package:alumni_app/src/components/full_screen_widget.dart';
+import 'package:alumni_app/src/models/user.dart';
 import 'package:alumni_app/src/screens/add-feed/add_feed.dart';
+import 'package:alumni_app/src/screens/feed-details/feed_details.dart';
 import 'package:alumni_app/src/screens/feed/bloc/feed_bloc.dart';
 import 'package:alumni_app/src/screens/feed/bloc/feed_event.dart';
 import 'package:alumni_app/src/screens/feed/bloc/feed_state.dart';
 import 'package:alumni_app/src/utils/colors.dart';
 import 'package:alumni_app/src/utils/image_resources.dart';
+import 'package:alumni_app/src/utils/preference_helper.dart';
 import 'package:alumni_app/src/utils/string_resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,12 +39,25 @@ class _FeedScreenState extends State<FeedScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: _onAddFeedButtonPressed,
-          backgroundColor: PRIMARY_DARK,
-          foregroundColor: Colors.white,
-          label: Text("Feed"),
-          icon: Icon(Icons.add),
+        floatingActionButton: FutureBuilder(
+          initialData: null,
+          future: PreferenceHelper.getToken(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              User user = snapshot.data;
+
+              if (user?.admin == true)
+                return FloatingActionButton.extended(
+                  onPressed: _onAddFeedButtonPressed,
+                  backgroundColor: PRIMARY_DARK,
+                  foregroundColor: Colors.white,
+                  label: Text("Feed"),
+                  icon: Icon(Icons.add),
+                );
+            }
+
+            return Container();
+          },
         ),
         body: Container(
           padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
@@ -90,7 +106,19 @@ class _FeedScreenState extends State<FeedScreen> {
               physics: BouncingScrollPhysics(),
               separatorBuilder: (ctx, i) => Container(height: 15),
               itemBuilder: (context, index) {
-                return FeedItemWidget(event: state.events[index]);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (c) => FeedDetailsScreen(
+                          feed: state.events[index],
+                        ),
+                      ),
+                    );
+                  },
+                  child: FeedItemWidget(event: state.events[index]),
+                );
               },
             ),
           );

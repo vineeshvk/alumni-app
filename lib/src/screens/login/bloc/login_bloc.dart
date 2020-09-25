@@ -28,7 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         if (response.error == null) {
-          await PreferenceHelper.saveToken(response.user.id);
+          await PreferenceHelper.saveToken(response.user);
           authenticationBloc.add(AuthenticationLoggedInEvent());
           yield LoginInitialState();
         } else {

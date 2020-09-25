@@ -27,6 +27,8 @@ class CollegeRespository {
       data: {"name": name},
     );
 
+    print("========================\n"+res.data.toString());
+
     if (res.data["error"] == null) {
       college = res.data["college"];
     } else

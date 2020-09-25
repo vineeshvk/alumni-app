@@ -4,6 +4,7 @@ import 'package:alumni_app/src/screens/add-feed/add_feed.dart';
 import 'package:alumni_app/src/screens/add-feed/bloc/add_feed_bloc.dart';
 import 'package:alumni_app/src/screens/admin-register/admin-registerbloc/admin_register_bloc.dart';
 import 'package:alumni_app/src/screens/admin-register/admin_register.dart';
+import 'package:alumni_app/src/screens/admin-register/college-bloc/college_bloc.dart';
 import 'package:alumni_app/src/screens/home/home.dart';
 import 'package:alumni_app/src/screens/login/bloc/login_bloc.dart';
 import 'package:alumni_app/src/screens/login/login.dart';
@@ -67,8 +68,11 @@ class PageBuilder {
   }
 
   static Widget buildAdminRegisterScreenPage() {
-    return BlocProvider<AdminRegisterBloc>(
-      create: (context) => AdminRegisterBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AdminRegisterBloc()),
+        BlocProvider(create: (context) => CollegeBloc())
+      ],
       child: AdminRegisterScreen(),
     );
   }
@@ -131,8 +135,9 @@ class PageRoutes {
 }
 
 Widget addAuthBloc(BuildContext context, Widget widget) {
-  return BlocListener(
+  return BlocConsumer<AuthenticationBloc,AuthenticationState>(
     cubit: BlocProvider.of<AuthenticationBloc>(context),
+    builder: (context, state) => widget,
     listener: (context, state) {
       if (state is AuthenticationLoggedInState) {
         Navigator.pushNamedAndRemoveUntil(
@@ -143,11 +148,5 @@ Widget addAuthBloc(BuildContext context, Widget widget) {
             context, WelcomeScreen.routeName, (v) => false);
       }
     },
-    child: BlocBuilder(
-      cubit: BlocProvider.of<AuthenticationBloc>(context),
-      builder: (context, state) {
-        return widget;
-      },
-    ),
   );
 }

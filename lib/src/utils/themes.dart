@@ -5,6 +5,7 @@ final defaultTheme = ThemeData(
   fontFamily: "WorkSans",
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
+  canvasColor: Colors.transparent,
   textTheme: TextTheme(
     button: TextStyle(
       fontSize: 16,

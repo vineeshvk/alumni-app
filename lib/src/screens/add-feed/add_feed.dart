@@ -45,6 +45,7 @@ class _AddFeedScreenState extends State<AddFeedScreen> {
     showModalBottomSheet(
       context: context,
       builder: (context) => CustomDatePicker(
+        maxYear: 5040,
         onDateTimeChanged: (newDate) {
           _addFeedBloc.scheduledDateCtrl.value = TextEditingValue(
             text: newDate.toIso8601String().substring(0, 10),
@@ -104,6 +105,7 @@ class _AddFeedScreenState extends State<AddFeedScreen> {
             ),
             getSelectImageWidget(),
             Container(height: 30),
+            addFeedButtonWidget()
           ],
         ),
       ),
@@ -149,9 +151,9 @@ class _AddFeedScreenState extends State<AddFeedScreen> {
   }
 
   Widget addFeedButtonWidget() {
-    return BlocListener<AddFeedBloc, AddFeedState>(
+    return BlocConsumer<AddFeedBloc, AddFeedState>(
       listener: _onFeedAddedSuccess,
-      child: BlocBuilder<AddFeedBloc, AddFeedState>(builder: (context, state) {
+      builder: (context, state) {
         return Column(
           children: [
             if (state is AddFeedFailureState)
@@ -163,7 +165,7 @@ class _AddFeedScreenState extends State<AddFeedScreen> {
             ),
           ],
         );
-      }),
+      },
     );
   }
 

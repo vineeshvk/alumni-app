@@ -2,9 +2,12 @@ import 'package:alumni_app/src/models/college_model.dart';
 import 'package:alumni_app/src/respositories/college_respository.dart';
 import 'package:alumni_app/src/screens/admin-register/college-bloc/college_event.dart';
 import 'package:alumni_app/src/screens/admin-register/college-bloc/college_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CollegeBloc extends Bloc<CollegeEvent, CollegeState> {
+  TextEditingController collegeController = TextEditingController();
+
   CollegeBloc() : super(CollegeInitialState());
 
   @override
@@ -34,11 +37,13 @@ class CollegeBloc extends Bloc<CollegeEvent, CollegeState> {
     try {
       yield AddCollegeLoadingState();
 
-      CollegeModel college = await CollegeRespository.addCollege();
+      CollegeModel college =
+          await CollegeRespository.addCollege(name: collegeController.text);
 
       yield AddCollegeSuccessState(college: college);
     } catch (e) {
-      yield AddCollegeFailureState(error: e);
+      print(e);
+      yield AddCollegeFailureState(error: e.toString());
     }
   }
 }
